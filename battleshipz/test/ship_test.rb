@@ -18,6 +18,16 @@ class ShipTest < Minitest::Test
     assert_equal 2, submarine.health
   end
 
-  
+  def test_if_starts_not_sunk?
+    submarine = Ship.new("Submarine", 2)
+
+    refute submarine.sunk?
+  end
+
+  def test_if_sunk?
+    submarine = Ship.new("Submarine", 2)
+
+    assert submarine.sunk?
+  end
 
 end
