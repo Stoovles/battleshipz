@@ -26,7 +26,9 @@ class ShipTest < Minitest::Test
 
   def test_if_sunk?
     submarine = Ship.new("Submarine", 2)
-
+    submarine.hit
+    submarine.hit
+    
     assert submarine.sunk?
   end
 
