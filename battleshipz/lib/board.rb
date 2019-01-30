@@ -1,24 +1,29 @@
+require 'pry'
 class Board
 
-  def initialize
+attr_reader :width, :length
+
+  def initialize(width, length)
+    @width = width
+    @length = length
   end
 
   def cells
     board_hash = {}
-    letter_converter(width, length).each do |coordinate|
+    letter_converter.each do |coordinate|
       board_hash[coordinate] = Cell.new(coordinate)
     end
     board_hash
   end
 
 
-  def letter_converter(width, length)
+  def letter_converter
     alphabet = ("A".."Z").to_a
-    width_letter_array = (1..width).map do |num|
+    width_letter_array = (1..@width).map do |num|
       num = alphabet[num - 1]
     end
     letter_array = []
-    width_letter_array.cycle(length) do |letter|
+    width_letter_array.cycle(@length) do |letter|
       letter_array << letter
     end
     letter_array.sort!
@@ -27,7 +32,7 @@ class Board
     letter_array.each do |letter|
       coordinate_array << letter + counter.to_s
       counter += 1
-      if counter > length
+      if counter > @length
         counter = 1
       end
     end
