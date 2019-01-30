@@ -40,6 +40,7 @@ class CellTest < Minitest::Test
     assert cell_1.fired_upon?
   end
 
-
+  ##render test to be added
+  ##fire_upon .hit method test
 
 end

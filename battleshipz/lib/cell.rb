@@ -18,13 +18,13 @@ attr_reader :coordinate, :ship
 
   def fire_upon
     @fired_upon = true
+    if @ship != nil
+      @ship.hit
+    end 
   end
 
   def fired_upon?
     @fired_upon
-    if @ship != nil
-      @ship.hit
-    end 
   end
 
   def render
