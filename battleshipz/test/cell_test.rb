@@ -32,5 +32,15 @@ class CellTest < Minitest::Test
     refute cell_1.empty?
     assert_equal submarine, cell_1.ship
   end
-  
+
+  def test_cell_has_been_fired_upon?
+    cell_1 = Cell.new("A1")
+    refute cell_1.fired_upon?
+    cell_1.fire_upon
+    assert cell_1.fired_upon?
+  end
+
+  ##render test to be added
+  ##fire_upon .hit method test
+
 end
