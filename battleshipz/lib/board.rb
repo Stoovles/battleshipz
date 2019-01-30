@@ -11,7 +11,6 @@ class Board
     board_hash
   end
 
-  end
 
   def letter_converter(width, length)
     alphabet = ("A".."Z").to_a
@@ -34,3 +33,4 @@ class Board
     end
     coordinate_array
   end
+end
