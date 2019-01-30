@@ -65,4 +65,36 @@ class CellTest < Minitest::Test
     assert_equal "X", cell_1.render
   end
 
+  def test_cell_can_render_period_when_ship_present
+    cell_1 = Cell.new("A1")
+    submarine = Ship.new("Submarine", 2)
+    cell_1.place_ship(submarine)
+    assert_equal ".", cell_1.render
+  end
+
+  def test_cell_can_render_s_with_true_argument
+    # skip
+    cell_1 = Cell.new("A1")
+    submarine = Ship.new("Submarine", 2)
+    cell_1.place_ship(submarine)
+
+    refute cell_1.fired_upon?
+    assert_equal "S", cell_1.render(true)
+  end
+
+  def test_cell_can_render_other_options_with_true_argument
+    cell_1 = Cell.new("A1")
+    cell_1.fire_upon
+    assert_equal "M", cell_1.render(true)
+
+    submarine = Ship.new("Submarine", 2)
+    cell_1.place_ship(submarine)
+
+    cell_1.fire_upon
+    assert_equal "H", cell_1.render(true)
+    
+    cell_1.fire_upon
+    assert_equal "X", cell_1.render(true)
+  end
+
 end
