@@ -32,6 +32,5 @@ class CellTest < Minitest::Test
     refute cell_1.empty?
     assert_equal submarine, cell_1.ship
   end
-
-
+  
 end
