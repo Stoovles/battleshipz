@@ -40,7 +40,29 @@ class CellTest < Minitest::Test
     assert cell_1.fired_upon?
   end
 
-  ##render test to be added
-  ##fire_upon .hit method test
+  def test_when_cell_fired_upon_ship_health_decrements
+    cell_1 = Cell.new("A1")
+    submarine = Ship.new("Submarine", 2)
+    cell_1.place_ship(submarine)
+    cell_1.fire_upon
+    assert_equal 1, submarine.health
+  end
+
+  def test_cell_can_render
+    cell_1 = Cell.new("A1")
+    refute cell_1.fired_upon?
+    assert_equal ".", cell_1.render
+
+    cell_1.fire_upon
+    assert_equal "M", cell_1.render
+
+    submarine = Ship.new("Submarine", 2)
+    cell_1.place_ship(submarine)
+    cell_1.fire_upon
+    assert_equal "H", cell_1.render
+
+    cell_1.fire_upon
+    assert_equal "X", cell_1.render
+  end
 
 end

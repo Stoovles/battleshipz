@@ -20,7 +20,7 @@ attr_reader :coordinate, :ship
     @fired_upon = true
     if @ship != nil
       @ship.hit
-    end 
+    end
   end
 
   def fired_upon?
@@ -31,27 +31,27 @@ attr_reader :coordinate, :ship
   #need to ask about boolean parameters
   #to render "S" - for now created a new method
     if @fired_upon == true && @ship != nil && ship.health == 0
-      puts "X"
+      "X"
     elsif @fired_upon == true && @ship != nil && ship.health != 0
-      puts "H"
+      "H"
     elsif @fired_upon == true && @ship == nil
-      puts "M"
+      "M"
     else
-      puts "."
+      "."
     end
   end
 
-  def render(true)
-    if @fired_upon == true && @ship != nil && ship.health == 0
-      puts "X"
-    elsif @ship != nil && @fired_upon == false
-      puts "S"
-    elsif @ship != nil && @fired_upon == true
-      puts "H"
-    elsif @ship == nil && @fired_upon == true
-      puts "M"
-    else
-      puts "."
-    end
-  end
+  # def render(true)
+  #   if @fired_upon == true && @ship != nil && ship.health == 0
+  #     puts "X"
+  #   elsif @ship != nil && @fired_upon == false
+  #     puts "S"
+  #   elsif @ship != nil && @fired_upon == true
+  #     puts "H"
+  #   elsif @ship == nil && @fired_upon == true
+  #     puts "M"
+  #   else
+  #     puts "."
+  #   end
+  # end
 end
