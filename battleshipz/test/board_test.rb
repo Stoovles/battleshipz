@@ -11,3 +11,11 @@ class BoardTest < Minitest::Test
 
     assert_instance_of Board, board
   end
+
+  def test_it_can_populate_board_with_cells
+    board = Board.new
+
+
+    assert_equal
+  end
+end
