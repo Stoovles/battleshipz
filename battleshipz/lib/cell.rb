@@ -28,33 +28,17 @@ attr_reader :coordinate, :ship
   end
 
   def render(optional = false)
-  #need to ask about boolean parameters
-  #to render "S" - for now created a new method
-
-      if @fired_upon && @ship != nil && ship.health == 0
-        "X"
-      elsif @fired_upon && @ship != nil && ship.health != 0
-        "H"
-      elsif @fired_upon && @ship == nil
-        "M"
-      elsif optional == true && @ship != nil
-        "S"
-      else
-        "."
-      end
+    if fired_upon? && !empty? && ship.sunk?
+      "X"
+    elsif fired_upon? && !empty? && !ship.sunk?
+      "H"
+    elsif fired_upon? && empty?
+      "M"
+    elsif optional == true && @ship != nil
+      "S"
+    else
+      "."
+    end
   end
 
-  # def render(true)
-  #   if @fired_upon == true && @ship != nil && ship.health == 0
-  #     puts "X"
-  #   elsif @ship != nil && @fired_upon == false
-  #     puts "S"
-  #   elsif @ship != nil && @fired_upon == true
-  #     puts "H"
-  #   elsif @ship == nil && @fired_upon == true
-  #     puts "M"
-  #   else
-  #     puts "."
-  #   end
-  # end
 end

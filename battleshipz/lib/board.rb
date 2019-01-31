@@ -1,19 +1,18 @@
 require 'pry'
 class Board
 
-attr_reader :width, :length
+  attr_reader :width, :length, :cells
 
   def initialize(width, length)
     @width = width
     @length = length
+    @cells = {}
   end
 
-  def cells
-    board_hash = {}
+  def board_hash
     letter_converter.each do |coordinate|
-      board_hash[coordinate] = Cell.new(coordinate)
+      @cells[coordinate] = Cell.new(coordinate)
     end
-    board_hash
   end
 
   def letter_converter
@@ -39,14 +38,7 @@ attr_reader :width, :length
   end
 
   def valid_coordinate?(coordinate)
-    cells.keys.each do |key|
-      if key == coordinate
-        return true
-      else
-        return false
-      end 
-    end
+    @cells.keys.include?(coordinate)
   end
-
 
 end
