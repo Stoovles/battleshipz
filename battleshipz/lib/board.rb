@@ -16,7 +16,6 @@ attr_reader :width, :length
     board_hash
   end
 
-
   def letter_converter
     alphabet = ("A".."Z").to_a
     width_letter_array = (1..@width).map do |num|
@@ -38,4 +37,16 @@ attr_reader :width, :length
     end
     coordinate_array
   end
+
+  def valid_coordinate?(coordinate)
+    cells.keys.each do |key|
+      if key == coordinate
+        return true
+      else
+        return false
+      end 
+    end
+  end
+
+
 end
