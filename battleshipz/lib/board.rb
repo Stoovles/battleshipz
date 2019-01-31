@@ -1,20 +1,18 @@
 require 'pry'
 class Board
 
-  attr_reader :width, :length #:cells, who is reading length and width?
+  attr_reader :width, :length, :cells
 
   def initialize(width, length)
     @width = width
     @length = length
-    # @cells = {}
+    @cells = {}
   end
 
-  def cells #call something like make_board
-    board_hash = {} #not needed
+  def board_hash
     letter_converter.each do |coordinate|
-      board_hash[coordinate] = Cell.new(coordinate) #@cells[coordinate] = Cell.new(coordinate)
+      @cells[coordinate] = Cell.new(coordinate)
     end
-    board_hash  #not needed
   end
 
   def letter_converter
@@ -39,17 +37,8 @@ class Board
     coordinate_array
   end
 
-#blahhhhhhhhh blah blah. only works for first coordinate- odn't use a loop
   def valid_coordinate?(coordinate)
-    cells.keys.each do |key| #cells or @cells
-      if key == coordinate
-        return true
-      else
-        return false
-      end
-    end
+    @cells.keys.include?(coordinate)
   end
-  # def valid_coordinate?(coordinate)
-  #   cells.keys.include?(coordinate)
-  # end
+
 end
