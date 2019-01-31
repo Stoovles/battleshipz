@@ -16,6 +16,7 @@ class CellTest < Minitest::Test
 
     assert_equal "A1", cell_1.coordinate
     assert_nil cell_1.ship
+    refute cell_1.fire_upon
   end
 
   def test_cell_starts_empty?
@@ -48,7 +49,7 @@ class CellTest < Minitest::Test
     assert_equal 1, submarine.health
   end
 
-  def test_cell_can_render
+  def test_cell_can_render #break into smaller tests
     cell_1 = Cell.new("A1")
     refute cell_1.fired_upon?
     assert_equal ".", cell_1.render
@@ -92,7 +93,7 @@ class CellTest < Minitest::Test
 
     cell_1.fire_upon
     assert_equal "H", cell_1.render(true)
-    
+
     cell_1.fire_upon
     assert_equal "X", cell_1.render(true)
   end
