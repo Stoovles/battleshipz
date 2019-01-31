@@ -27,7 +27,7 @@ class Board
     letter_array.sort!
     counter = 1
     coordinate_array = []
-    letter_array.each do |letter|
+    letter_array.each do |letter| #Amy says "Just say no to each."
       coordinate_array << letter + counter.to_s
       counter += 1
       if counter > @length

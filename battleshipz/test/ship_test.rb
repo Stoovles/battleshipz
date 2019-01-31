@@ -28,7 +28,11 @@ class ShipTest < Minitest::Test
     submarine = Ship.new("Submarine", 2)
     submarine.hit
     submarine.hit
-    
+
+    assert submarine.sunk?
+
+    submarine.hit
+
     assert submarine.sunk?
   end
 
