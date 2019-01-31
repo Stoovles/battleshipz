@@ -44,4 +44,43 @@ class BoardTest < Minitest::Test
     refute board.valid_coordinate?("Z10")
   end
 
+  def test_invalid_placement_if_ship_length_and_coordinate_array_count_dont_match
+    board = Board.new(4,4)
+    board.board_hash
+    submarine = Ship.new("Submarine", 2)
+
+
+    assert board.valid_placement_length?(submarine, ["A1", "A2"])
+    refute board.valid_placement_length?(submarine, ["A1", "A2", "A3"])
+  end
+
+  def test_invalid_placement_if_coordinate_not_on_board
+    board = Board.new(4,4)
+    board.board_hash
+    submarine = Ship.new("Submarine", 2)
+
+    assert board.valid_placement_coordinate?(submarine, ["C1", "D1"])
+    refute board.valid_placement_coordinate?(submarine, ["Z1", "A1"])
+    refute board.valid_placement_coordinate?(submarine, ["A8", "B1"])
+
+  end
+
+  def test_invalid_placement_if_not_consecutive
+    skip
+  end
+
+  def test_invalid_placement_if_diagonal
+    skip
+  end
+
+
+  def test_valid_placement?
+    skip
+    board = Board.new(4,4)
+    board.board_hash
+    submarine = Ship.new("Submarine", 2)
+    assert board.valid_placement?(submarine, ["A1", "A2"])
+    assert board.valid_placement?(cruiser, ["B2", "B3", "B4"])
+    refute board.valid_placement?(submarine, ["E1", "C2"])
+  end
 end

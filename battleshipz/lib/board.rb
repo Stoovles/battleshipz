@@ -41,4 +41,24 @@ class Board
     @cells.keys.include?(coordinate)
   end
 
+  def valid_placement_length?(ship, coordinates)
+    ship.length == coordinates.count
+  end
+
+  def valid_placement_coordinate?(ship, coordinates)
+
+
+  def valid_placement?(ship, coordinates)
+    #valid_placement_length(ship, coordinate)
+    #ship.length = coordinate_array.count
+
+    #valid_placement_coordinate
+    #.any // .none
+
+    #valid_placement_consecutive
+    #horizontal_check && vertical_check
+  end
+
+
+
 end
