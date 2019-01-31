@@ -46,9 +46,45 @@ class Board
   end
 
   def valid_placement_coordinate?(ship, coordinates)
+    coordinates.none? do |coordinate|
+      !valid_coordinate?(coordinate)
+    end
+  end
 
+  def check_horizontal(coordinates)
+    check_horizontal = []
+    coordinates.each do |coordinate|
+      check_horizontal << coordinate[0]
+    end
+    if check_horizontal.uniq.count == 1
+      check_cons_numbers = []
+      coordinates.each do |coordinate|
+        check_cons_numbers << coordinate[1]
+      end
+        if check_cons_numbers.each_cons(2).all? do |number_1, number_2|
+          number_2 == number_1 + 1
+        end
+        end
+    else
+      vertical_check(coordinates)
+    end
+  end
+
+  def check_vertical(coordiantes)
+    check_vertical = []
+    coordinates.each do |coordinate|
+      check_vertical << coordinate[0]
+    end
+    if check_vertical.uniq.count == coordinates.count
+    
+
+  def valid_placement_consecutive?(ship, coordinates)
+    if check_horizontal(coordinates)
+
+  end
 
   def valid_placement?(ship, coordinates)
+    # coordinates.sort!
     #valid_placement_length(ship, coordinate)
     #ship.length = coordinate_array.count
 
