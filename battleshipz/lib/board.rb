@@ -144,25 +144,46 @@ class Board
     end
   end
 
+  # def render(optional = false)
+  #   #output for 4 x 4 board => 1 2 3 4
+  #   (1..@width).each do |number|
+  #     print "  ", number
+  #   end
+  #   print "\n"
+  #   counter = 0
+  #   @cells.values.each do |cell_object|
+  #     if counter == 0
+  #       print cell_object.coordinate[0], " "
+  #     end
+  #     print cell_object.render, "  "
+  #     counter += 1
+  #     if counter == @width
+  #       p "\n"
+  #       counter = 0
+  #     end
+  #   end
+  # end
+
   def render(optional = false)
     #output for 4 x 4 board => 1 2 3 4
+    render_variable = ""
     (1..@width).each do |number|
-      print "  ", number
+      render_variable << "  #{number}"
     end
-    print "\n"
-
+    render_variable = "#{render_variable}  \n"
     counter = 0
     @cells.values.each do |cell_object|
       if counter == 0
-        print cell_object.coordinate[0], " "
+        render_variable << "#{cell_object.coordinate[0]} "
       end
-      print cell_object.render, "  "
+      render_variable << "#{cell_object.render}  "
       counter += 1
       if counter == @width
-        p "\n"
+        render_variable << "\n"
         counter = 0
       end
     end
+    render_variable
   end
 
 end
