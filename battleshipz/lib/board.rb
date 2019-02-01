@@ -104,21 +104,7 @@ class Board
 
   def valid_placement_consecutive?(ship, coordinates)
     check_horizontal_or_vertical(coordinates)
-
   end
-
-  # def valid_placement?(ship, coordinates)
-  #   coordinates.sort!
-  #   if valid_placement_length?(ship, coordinates)
-  #     if valid_placement_coordinate?(ship, coordinates)
-  #       if valid_placement_consecutive?(ship, coordinates)
-  #       end
-  #     end
-  #     return true
-  #   else
-  #     return false
-  #   end
-  # end
 
   def valid_placement?(ship, coordinates)
     coordinates.sort!

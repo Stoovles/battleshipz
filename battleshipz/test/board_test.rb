@@ -76,10 +76,46 @@ class BoardTest < Minitest::Test
     refute board.valid_placement_consecutive?(cruiser, ["A1", "C1", "D1"])
   end
 
-  def test_valid_placement_if_diagonal
-    skip
+  def test_valid_placement_length?
+    board = Board.new(4,4)
+    board.board_hash
+    submarine = Ship.new("Submarine", 2)
+    cruiser = Ship.new("Cruiser", 3)
+
+    assert board.valid_placement_length?(submarine, ["A1", "A2"])
+    refute board.valid_placement_length?(submarine, ["rand"])
+    refute board.valid_placement_length?(submarine, ["A1", "A2", "A3"])
+    assert board.valid_placement_length?(cruiser, ["A1", "A2", "A3"])
+    refute board.valid_placement_length?(cruiser, ["rand", "rand"])
+    refute board.valid_placement_length?(cruiser, ["A1", "A2", "A3", "A4"])
   end
 
+  def test_valid_placement_coordinate?
+    board = Board.new(4,4)
+    board.board_hash
+    submarine = Ship.new("Submarine", 2)
+    cruiser = Ship.new("Cruiser", 3)
+
+    assert board.valid_placement_coordinate?(submarine, ["A1", "A2"])
+    refute board.valid_placement_coordinate?(submarine, ["A1", "E2"])
+    assert board.valid_placement_coordinate?(cruiser, ["A1", "A2", "A3"])
+    refute board.valid_placement_coordinate?(cruiser, ["A1", "A2", "E3"])
+  end
+
+  def test_valid_placement_consecutive?
+    board = Board.new(4,4)
+    board.board_hash
+    submarine = Ship.new("Submarine", 2)
+    cruiser = Ship.new("Cruiser", 3)
+
+    assert board.valid_placement_consecutive?(submarine, ["D2", "D3"])
+    assert board.valid_placement_consecutive?(submarine, ["D4", "D5"])
+    refute board.valid_placement_consecutive?(submarine, ["C1", "D2"])
+    refute board.valid_placement_consecutive?(submarine, ["B1", "B4"])
+    assert board.valid_placement_consecutive?(cruiser, ["D2", "D3", "D4"])
+    assert board.valid_placement_consecutive?(cruiser, ["B1", "C1", "D1"])
+    refute board.valid_placement_consecutive?(cruiser, ["D1", "D2", "D4"])
+  end
 
   def test_valid_placement?
     board = Board.new(4,4)
@@ -92,5 +128,7 @@ class BoardTest < Minitest::Test
     refute board.valid_placement?(cruiser, ["C1", "C2", "D3"])
     assert board.valid_placement?(cruiser, ["B1", "C1", "A1"])
     refute board.valid_placement?(cruiser, ["B1", "C1", "E1"])
+    refute board.valid_placement?(cruiser, ["A1", "B2", "C3"])
+
   end
 end
