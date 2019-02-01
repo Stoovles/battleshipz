@@ -41,4 +41,78 @@ class Board
     @cells.keys.include?(coordinate)
   end
 
+  def valid_placement_length?(ship, coordinates)
+    ship.length == coordinates.count
+  end
+
+  def valid_placement_coordinate?(ship, coordinates)
+    coordinates.none? do |coordinate|
+      !valid_coordinate?(coordinate)
+    end
+  end
+
+  def check_horizontal_or_vertical(coordinates)
+    check_horizontal = []
+    coordinates.each do |coordinate|
+      check_horizontal << coordinate[0]
+    end
+    if check_horizontal.uniq.count == 1 #[A] == 1 : confirms all letters are same
+      check_cons_numbers = []
+      coordinates.each do |coordinate|
+        check_cons_numbers << coordinate[1].to_i
+      end
+        if check_cons_numbers.each_cons(2).all? do |number_1, number_2|
+          number_2 == number_1 + 1
+        end
+          #confirms numbers are consecutive, e.g. [1, 2, 3]
+          return true #valid_placement_consecutive? == true
+        else
+          return false #valid_placement_consecutive == false
+        end
+    else
+      check_vertical(coordinates)
+    end
+  end
+
+  def check_vertical(coordinates)
+    check_vertical = []
+    coordinates.each do |coordinate|
+      check_vertical << coordinate[0]
+    end
+    check_cons_letters = []
+    check_cons_letters = check_vertical.map do |letter|
+      letter.ord
+    end
+    if check_cons_letters.each_cons(2).all? do |letter_1, letter_2|
+      letter_2 == letter_1 + 1
+    end
+    #[A, B, C] == 3 : confirms all different letters
+      check_duplicate_numbers = []
+      coordinates.each do |coordinate| #[1].count == 1 : checks if one unique number
+        check_duplicate_numbers << coordinate[1]
+      end
+      if check_duplicate_numbers.uniq.count == 1
+        return true #valid_placement_consecutive == true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
+
+
+  def valid_placement_consecutive?(ship, coordinates)
+    check_horizontal_or_vertical(coordinates)
+  end
+
+  def valid_placement?(ship, coordinates)
+    coordinates.sort!
+    valid_placement_length?(ship, coordinates)
+    valid_placement_coordinate?(ship, coordinates)
+    valid_placement_consecutive?(ship, coordinates)
+  end
+
+
+
 end
