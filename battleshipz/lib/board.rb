@@ -1,4 +1,5 @@
 require 'pry'
+
 class Board
 
   attr_reader :width, :length, :cells
@@ -101,7 +102,6 @@ class Board
     end
   end
 
-
   def valid_placement_consecutive?(ship, coordinates)
     check_horizontal_or_vertical(coordinates)
   end
@@ -113,6 +113,15 @@ class Board
     valid_placement_consecutive?(ship, coordinates)
   end
 
+  def place(ship, coordinates)
+    @cells.values.each do |cell_object|
+      coordinates.each do |coord|
+        if coord == cell_object.coordinate
+          cell_object.place_ship(ship)
+        end
+      end
+    end
+  end
 
 
 end
