@@ -162,7 +162,6 @@ class BoardTest < Minitest::Test
   def test_it_can_render_board
     board = Board.new(4,4)
     board.board_hash
-    require 'pry'; binding.pry
     board.render
   end
 end

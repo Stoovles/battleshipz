@@ -142,15 +142,23 @@ class Board
   #     end
   #   end
   # end
+  # def place(ship, coordinates) Ethan's Late Nite Version
+  #   counter = 0
+  #   @cells.values.each do |cell_object|
+  #     if cell_object.coordinate == coordinates[counter]
+  #       cell_object.place_ship(ship)
+  #       counter += 1
+  #     end
+  #   end
+  # end
   def place(ship, coordinates)
-    counter = 0
-    @cells.values.each do |cell_object|
-      if cell_object.coordinate == coordinates[counter]
-        cell_object.place_ship(ship)
-        counter += 1
+    if valid_placement?(ship, coordinates)
+      coordinates.each do |coord|
+        @cells[coord].place_ship(ship)
       end
     end
   end
+
 
   def render(optional = false)
   #If you run board_test.rb as is you will see the rendered board without the letter
