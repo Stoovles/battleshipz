@@ -106,19 +106,41 @@ class Board
     check_horizontal_or_vertical(coordinates)
   end
 
+  def valid_placement_ship?(ship, coordinates)
+    counter = 0
+    if @cells.values.none? do |cell_object|
+          cell_object.coordinate == coordinates[counter] && cell_object.ship != nil
+          counter += 1
+        end
+        return true
+      else
+        return false
+    end
+  end
+
   def valid_placement?(ship, coordinates)
     coordinates.sort!
     valid_placement_length?(ship, coordinates)
     valid_placement_coordinate?(ship, coordinates)
     valid_placement_consecutive?(ship, coordinates)
+    # valid_placement_ship?(ship, coordinates)
   end
 
+  # def place(ship, coordinates)
+  #   @cells.values.each do |cell_object|
+  #     coordinates.each do |coord|
+  #       if coord == cell_object.coordinate
+  #         cell_object.place_ship(ship)
+  #       end
+  #     end
+  #   end
+  # end
   def place(ship, coordinates)
+    counter = 0
     @cells.values.each do |cell_object|
-      coordinates.each do |coord|
-        if coord == cell_object.coordinate
-          cell_object.place_ship(ship)
-        end
+      if cell_object.coordinate == coordinates[counter]
+        cell_object.place_ship(ship)
+        counter += 1
       end
     end
   end
