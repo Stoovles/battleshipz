@@ -106,16 +106,29 @@ class Board
     check_horizontal_or_vertical(coordinates)
   end
 
+  # def valid_placement_ship?(ship, coordinates) #rename: valid_placement_overlap?
+  #   counter = 0
+  #   cells_with_ships = @cells.values.find_all do |cell_object|
+  #     cell_object.ship != nil
+  #   end
+  #   cells_with_ships.each do |cell_object| #cell_object.coordinate always starts as "A1"; the coordinates and counter increment the same
+  #     if cell_object.coordinate == coordinates[counter]
+  #       return false
+  #     end
+  #     counter += 1
+  #   end
+  #   return true
+  # end
+
   def valid_placement_ship?(ship, coordinates)
-    counter = 0
-    cells_with_ships = @cells.values.find_all do |cell_object|
-      cell_object.ship != nil
-    end
-    cells_with_ships.each do |cell_object|
-      if cell_object.coordinate == coordinates[counter]
+  #def valid_placement_overlap?(ship, coordinates)
+    coordinates.each do |coordinate|
+      if !valid_coordinate?(coordinate)
         return false
       end
-      counter += 1
+      if !@cells[coordinate].empty?
+        return false
+      end
     end
     return true
   end
@@ -125,12 +138,20 @@ class Board
   #it fails a test within test_valid_placement?
   def valid_placement?(ship, coordinates)
     coordinates.sort!
-    valid_placement_ship?(ship, coordinates)
-    valid_placement_length?(ship, coordinates)
-    valid_placement_coordinate?(ship, coordinates)
-    valid_placement_consecutive?(ship, coordinates)
-
-
+    if !valid_placement_length?(ship, coordinates)
+      return false
+    end
+    # true = continue to vp_coordinate; false = "Invalid coordinates."
+    if !valid_placement_coordinate?(ship, coordinates)
+      return false
+    end
+    if !valid_placement_consecutive?(ship, coordinates)
+      return false
+    end
+    if !valid_placement_ship?(ship, coordinates)
+      return false
+    end
+      return true
   end
 
   # def place(ship, coordinates)
