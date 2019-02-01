@@ -153,27 +153,18 @@ class Board
   end
 
   def render(optional = false)
-  #If you run board_test.rb as is you will see the rendered board without the letter
-  #and number row/column. The following two commented out pieces of code create said
-  #column/row. Factoring them into the uncommented piece of code does not seem too difficult
-  #but I am exhausted ... zzzz
-
-  #Directions: there is a binding.pry on line 165 of board_test
-  #ruby test/board_test.rb
-  #play -l 166
-
     #output for 4 x 4 board => 1 2 3 4
-    # (1..@width).each do |number|
-    #   print number, "  "
-    # end
-    #
-    #output for 4 x 4 board => A \n B \n C \n D
-    # (65..(65+@length)).each do |number|
-    #   puts number.chr
-    # end
+    (1..@width).each do |number|
+      print "  ", number
+    end
+    print "\n"
+
     counter = 0
     @cells.values.each do |cell_object|
-      print cell_object.render, " "
+      if counter == 0
+        print cell_object.coordinate[0], " "
+      end
+      print cell_object.render, "  "
       counter += 1
       if counter == @width
         p "\n"
