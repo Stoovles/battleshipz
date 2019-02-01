@@ -51,48 +51,80 @@ class Board
     end
   end
 
-  def check_horizontal(coordinates)
+  def check_horizontal_or_vertical(coordinates)
     check_horizontal = []
     coordinates.each do |coordinate|
       check_horizontal << coordinate[0]
     end
-    if check_horizontal.uniq.count == 1
+    if check_horizontal.uniq.count == 1 #[A] == 1 : confirms all letters are same
       check_cons_numbers = []
       coordinates.each do |coordinate|
-        check_cons_numbers << coordinate[1]
+        check_cons_numbers << coordinate[1].to_i
       end
         if check_cons_numbers.each_cons(2).all? do |number_1, number_2|
           number_2 == number_1 + 1
         end
+          #confirms numbers are consecutive, e.g. [1, 2, 3]
+          return true #valid_placement_consecutive? == true
+        else
+          return false #valid_placement_consecutive == false
         end
     else
-      vertical_check(coordinates)
+      check_vertical(coordinates)
     end
   end
 
-  def check_vertical(coordiantes)
+  def check_vertical(coordinates)
     check_vertical = []
     coordinates.each do |coordinate|
       check_vertical << coordinate[0]
     end
-    if check_vertical.uniq.count == coordinates.count
-    
+    check_cons_letters = []
+    check_cons_letters = check_vertical.map do |letter|
+      letter.ord
+    end
+    if check_cons_letters.each_cons(2).all? do |letter_1, letter_2|
+      letter_2 == letter_1 + 1
+    end
+    #[A, B, C] == 3 : confirms all different letters
+      check_duplicate_numbers = []
+      coordinates.each do |coordinate| #[1].count == 1 : checks if one unique number
+        check_duplicate_numbers << coordinate[1]
+      end
+      if check_duplicate_numbers.uniq.count == 1
+        return true #valid_placement_consecutive == true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
+
 
   def valid_placement_consecutive?(ship, coordinates)
-    if check_horizontal(coordinates)
+    check_horizontal_or_vertical(coordinates)
 
   end
 
+  # def valid_placement?(ship, coordinates)
+  #   coordinates.sort!
+  #   if valid_placement_length?(ship, coordinates)
+  #     if valid_placement_coordinate?(ship, coordinates)
+  #       if valid_placement_consecutive?(ship, coordinates)
+  #       end
+  #     end
+  #     return true
+  #   else
+  #     return false
+  #   end
+  # end
+
   def valid_placement?(ship, coordinates)
-    # coordinates.sort!
-    #valid_placement_length(ship, coordinate)
-    #ship.length = coordinate_array.count
-
-    #valid_placement_coordinate
-    #.any // .none
-
-    #valid_placement_consecutive
-    #horizontal_check && vertical_check
+    coordinates.sort!
+    valid_placement_length?(ship, coordinates)
+    valid_placement_coordinate?(ship, coordinates)
+    valid_placement_consecutive?(ship, coordinates)
   end
 
 

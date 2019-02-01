@@ -82,12 +82,15 @@ class BoardTest < Minitest::Test
 
 
   def test_valid_placement?
-    skip
     board = Board.new(4,4)
     board.board_hash
     submarine = Ship.new("Submarine", 2)
+    cruiser = Ship.new("Cruiser", 3)
     assert board.valid_placement?(submarine, ["A1", "A2"])
     assert board.valid_placement?(cruiser, ["B2", "B3", "B4"])
     refute board.valid_placement?(submarine, ["E1", "C2"])
+    refute board.valid_placement?(cruiser, ["C1", "C2", "D3"])
+    assert board.valid_placement?(cruiser, ["B1", "C1", "A1"])
+    refute board.valid_placement?(cruiser, ["B1", "C1", "E1"])
   end
 end
