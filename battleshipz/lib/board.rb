@@ -191,24 +191,38 @@ class Board
   #ruby test/board_test.rb
   #play -l 166
 
-    #output for 4 x 4 board => 1 2 3 4
-    # (1..@width).each do |number|
-    #   print number, "  "
-    # end
-    #
+    # output for 4 x 4 board => 1 2 3 4
+    p "\n" #to make the test look pretty
+    (1..@width).each do |number|
+      print number, "  "
+    end
+    p "\n"
+
     #output for 4 x 4 board => A \n B \n C \n D
-    # (65..(65+@length)).each do |number|
-    #   puts number.chr
-    # end
-    counter = 0
-    @cells.values.each do |cell_object|
-      print cell_object.render, " "
-      counter += 1
-      if counter == @width
-        p "\n"
-        counter = 0
+    (65..(65 + @length - 1)).each do |number| #without -1, printed 5 letters
+      puts number.chr
+      # start cell loop
+      counter = 0
+      @cells.values.each do |cell_object|
+        print cell_object.render, " "
+        counter += 1
+        if counter == @width
+          p "\n"
+          counter = 0
+        end
       end
     end
+
+
+    # counter = 0
+    # @cells.values.each do |cell_object|
+    #   print cell_object.render, " "
+    #   counter += 1
+    #   if counter == @width
+    #     p "\n"
+    #     counter = 0
+    #   end
+    # end
 
   end
 
