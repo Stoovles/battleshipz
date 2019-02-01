@@ -164,9 +164,16 @@ class BoardTest < Minitest::Test
     refute_equal cell_3.ship, cell_4.ship
   end
 
-  def test_it_can_render_board
+  def test_it_can_render_empty_board
     board = Board.new(4,4)
     board.board_hash
-    board.render
+
+    expected = "  1  2  3  4  \n" +
+               "A .  .  .  .  \n" +
+               "B .  .  .  .  \n" +
+               "C .  .  .  .  \n" +
+               "D .  .  .  .  \n"
+
+    assert_equal expected, board.render
   end
 end
