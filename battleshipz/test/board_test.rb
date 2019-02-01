@@ -117,11 +117,22 @@ class BoardTest < Minitest::Test
     refute board.valid_placement_consecutive?(cruiser, ["D1", "D2", "D4"])
   end
 
+  def test_valid_placement_ship?
+    board = Board.new(4,4)
+    board.board_hash
+    submarine = Ship.new("Submarine", 2)
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+
+    refute board.valid_placement_ship?(submarine, ["A1", "B1"])
+  end
+
   def test_valid_placement?
     board = Board.new(4,4)
     board.board_hash
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
+
     assert board.valid_placement?(submarine, ["A1", "A2"])
     assert board.valid_placement?(cruiser, ["B2", "B3", "B4"])
     refute board.valid_placement?(submarine, ["E1", "C2"])
@@ -146,5 +157,12 @@ class BoardTest < Minitest::Test
     assert_equal cell_1.ship, cell_2.ship
     assert_equal cell_2.ship, cell_3.ship
     refute_equal cell_3.ship, cell_4.ship
+  end
+
+  def test_it_can_render_board
+    board = Board.new(4,4)
+    board.board_hash
+    require 'pry'; binding.pry
+    board.render
   end
 end
