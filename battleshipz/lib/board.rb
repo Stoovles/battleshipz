@@ -106,16 +106,29 @@ class Board
     check_horizontal_or_vertical(coordinates)
   end
 
+  # def valid_placement_ship?(ship, coordinates) #rename: valid_placement_overlap?
+  #   counter = 0
+  #   cells_with_ships = @cells.values.find_all do |cell_object|
+  #     cell_object.ship != nil
+  #   end
+  #   cells_with_ships.each do |cell_object| #cell_object.coordinate always starts as "A1"; the coordinates and counter increment the same
+  #     if cell_object.coordinate == coordinates[counter]
+  #       return false
+  #     end
+  #     counter += 1
+  #   end
+  #   return true
+  # end
+
   def valid_placement_ship?(ship, coordinates)
-    counter = 0
-    cells_with_ships = @cells.values.find_all do |cell_object|
-      cell_object.ship != nil
-    end
-    cells_with_ships.each do |cell_object|
-      if cell_object.coordinate == coordinates[counter]
+  #def valid_placement_overlap?(ship, coordinates)
+    coordinates.each do |coordinate|
+      if !valid_coordinate?(coordinate)
         return false
       end
-      counter += 1
+      if !@cells[coordinate].empty?
+        return false
+      end
     end
     return true
   end
@@ -125,12 +138,20 @@ class Board
   #it fails a test within test_valid_placement?
   def valid_placement?(ship, coordinates)
     coordinates.sort!
-    valid_placement_ship?(ship, coordinates)
-    valid_placement_length?(ship, coordinates)
-    valid_placement_coordinate?(ship, coordinates)
-    valid_placement_consecutive?(ship, coordinates)
-
-
+    if !valid_placement_length?(ship, coordinates)
+      return false
+    end
+    # true = continue to vp_coordinate; false = "Invalid coordinates."
+    if !valid_placement_coordinate?(ship, coordinates)
+      return false
+    end
+    if !valid_placement_consecutive?(ship, coordinates)
+      return false
+    end
+    if !valid_placement_ship?(ship, coordinates)
+      return false
+    end
+      return true
   end
 
   # def place(ship, coordinates)
@@ -142,15 +163,23 @@ class Board
   #     end
   #   end
   # end
+  # def place(ship, coordinates) Ethan's Late Nite Version
+  #   counter = 0
+  #   @cells.values.each do |cell_object|
+  #     if cell_object.coordinate == coordinates[counter]
+  #       cell_object.place_ship(ship)
+  #       counter += 1
+  #     end
+  #   end
+  # end
   def place(ship, coordinates)
-    counter = 0
-    @cells.values.each do |cell_object|
-      if cell_object.coordinate == coordinates[counter]
-        cell_object.place_ship(ship)
-        counter += 1
+    if valid_placement?(ship, coordinates)
+      coordinates.each do |coord|
+        @cells[coord].place_ship(ship)
       end
     end
   end
+
 
   def render(optional = false)
   #If you run board_test.rb as is you will see the rendered board without the letter
@@ -162,24 +191,38 @@ class Board
   #ruby test/board_test.rb
   #play -l 166
 
-    #output for 4 x 4 board => 1 2 3 4
-    # (1..@width).each do |number|
-    #   print number, "  "
-    # end
-    #
+    # output for 4 x 4 board => 1 2 3 4
+    p "\n" #to make the test look pretty
+    (1..@width).each do |number|
+      print number, "  "
+    end
+    p "\n"
+
     #output for 4 x 4 board => A \n B \n C \n D
-    # (65..(65+@length)).each do |number|
-    #   puts number.chr
-    # end
-    counter = 0
-    @cells.values.each do |cell_object|
-      print cell_object.render, " "
-      counter += 1
-      if counter == @width
-        p "\n"
-        counter = 0
+    (65..(65 + @length - 1)).each do |number| #without -1, printed 5 letters
+      puts number.chr
+      # start cell loop
+      counter = 0
+      @cells.values.each do |cell_object|
+        print cell_object.render, " "
+        counter += 1
+        if counter == @width
+          p "\n"
+          counter = 0
+        end
       end
     end
+
+
+    # counter = 0
+    # @cells.values.each do |cell_object|
+    #   print cell_object.render, " "
+    #   counter += 1
+    #   if counter == @width
+    #     p "\n"
+    #     counter = 0
+    #   end
+    # end
 
   end
 
