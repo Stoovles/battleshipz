@@ -158,4 +158,11 @@ class BoardTest < Minitest::Test
     assert_equal cell_2.ship, cell_3.ship
     refute_equal cell_3.ship, cell_4.ship
   end
+
+  def test_it_can_render_board
+    board = Board.new(4,4)
+    board.board_hash
+    require 'pry'; binding.pry
+    board.render
+  end
 end

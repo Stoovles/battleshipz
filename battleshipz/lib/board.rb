@@ -108,22 +108,29 @@ class Board
 
   def valid_placement_ship?(ship, coordinates)
     counter = 0
-    if @cells.values.none? do |cell_object|
-          cell_object.coordinate == coordinates[counter] && cell_object.ship != nil
-          counter += 1
-        end
-        return true
-      else
-        return false
+    cells_with_ships = @cells.values.find_all do |cell_object|
+      cell_object.ship != nil
     end
+    cells_with_ships.each do |cell_object|
+      if cell_object.coordinate == coordinates[counter]
+        return false
+      end
+      counter += 1
+    end
+    return true
   end
 
+  #for some reason the order matters
+  #if I place valid_placement_ship? last,
+  #it fails a test within test_valid_placement?
   def valid_placement?(ship, coordinates)
     coordinates.sort!
+    valid_placement_ship?(ship, coordinates)
     valid_placement_length?(ship, coordinates)
     valid_placement_coordinate?(ship, coordinates)
     valid_placement_consecutive?(ship, coordinates)
-    # valid_placement_ship?(ship, coordinates)
+
+
   end
 
   # def place(ship, coordinates)
@@ -143,6 +150,37 @@ class Board
         counter += 1
       end
     end
+  end
+
+  def render(optional = false)
+  #If you run board_test.rb as is you will see the rendered board without the letter
+  #and number row/column. The following two commented out pieces of code create said
+  #column/row. Factoring them into the uncommented piece of code does not seem too difficult
+  #but I am exhausted ... zzzz
+
+  #Directions: there is a binding.pry on line 165 of board_test
+  #ruby test/board_test.rb
+  #play -l 166
+
+    #output for 4 x 4 board => 1 2 3 4
+    # (1..@width).each do |number|
+    #   print number, "  "
+    # end
+    #
+    #output for 4 x 4 board => A \n B \n C \n D
+    # (65..(65+@length)).each do |number|
+    #   puts number.chr
+    # end
+    counter = 0
+    @cells.values.each do |cell_object|
+      print cell_object.render, " "
+      counter += 1
+      if counter == @width
+        p "\n"
+        counter = 0
+      end
+    end
+
   end
 
 
