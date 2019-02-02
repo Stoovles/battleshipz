@@ -6,3 +6,5 @@ require './lib/computer_player'
 require './lib/game'
 
 game = Game.new
+
+game.start

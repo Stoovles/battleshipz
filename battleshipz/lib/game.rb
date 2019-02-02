@@ -1,3 +1,40 @@
+require 'pry'
+# require './lib/board'
+
+def initialize
+
+end
+
+def start
+  main_menu
+end
+
+def main_menu #also needs this option at end of game
+  puts "Welcome to Battleshipz!"
+  puts "Enter p to play. Enter q to quit."
+  puts "> "
+  play_or_quit = gets.chomp
+  if play_or_quit == "q"
+    exit
+  else
+    play_game
+  end
+end
+
+def play_game
+  # computer ship placement
+  puts "I have laid out my ships on the board."
+  puts "Now it's your turn."
+  puts "The cruiser is three coordinates long and the submarine is two."
+  put "empty board render"
+  puts "Enter three consecutive coordinates for the cruiser:"
+  puts "> "
+  # playership placement
+end
+
+def game_over
+  main_menu
+end
 
 
 # def start
