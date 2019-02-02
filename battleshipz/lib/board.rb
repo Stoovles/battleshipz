@@ -169,7 +169,7 @@ class Board
   def render(optional = false)
     #output for 4 x 4 board => 1 2 3 4
     render_variable = ""
-    (1..@width).each do |number|
+    (1..@length).each do |number|
       render_variable << "  #{number}"
     end
     render_variable = "#{render_variable}  \n"
@@ -185,7 +185,7 @@ class Board
         render_variable << "#{cell_object.render}  "
         counter += 1
       end
-      if counter == @width
+      if counter == @length
         render_variable << "\n"
         counter = 0
       end
