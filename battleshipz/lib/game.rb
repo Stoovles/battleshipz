@@ -8,7 +8,8 @@ require './lib/computer_player'
 class Game
 
   def start
-    main_menu
+    # main_menu
+    play_game
   end
 
   def main_menu #also needs this option at end of game
@@ -23,26 +24,36 @@ class Game
     end
   end
 
-  def play_game
-    puts "The game board is a grid. Choose a number for the x axis."
-    print "> "
-    x_axis_length = gets.chomp.to_i
-    puts "Now choose a number for the y axis."
-    print "> "
-    y_axis_width = gets.chomp.to_i
-    board = Board.new(y_axis_width, x_axis_length)
-    board.board_hash
-    
+  def play_game #make this multiple methods
+    # puts "The game board is a grid. Choose a number for the x axis."
+    # print "> "
+    # x_axis_length = gets.chomp.to_i
+    # puts "Now choose a number for the y axis."
+    # print "> "
+    # y_axis_width = gets.chomp.to_i
+    # board = Board.new(y_axis_width, x_axis_length)
+    board = Board.new(4, 4)
+
     # computer ship placement
 
-    puts "I have laid out my ships on the board."
-    puts "Now it's your turn."
-    puts "The cruiser is three coordinates long and the submarine is two."
+    # puts "I have laid out my ships on the board."
+    # puts "Now it's your turn."
     puts board.render
-
+    puts "The cruiser is three coordinates long and the submarine is two."
     puts "Enter three consecutive coordinates for the cruiser:"
-    puts "> "
-    # playership placement
+    print "> "
+    human_cruiser_coordinates = gets.chomp.split
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, human_cruiser_coordinates)
+    puts board.render(true)
+
+    puts "Enter two consecutive coordinates for the submarine:"
+    print "> "
+    human_sub_coordinates = gets.chomp.split
+    submarine = Ship.new("Submarine", 2)
+    board.place(submarine, human_sub_coordinates)
+    
+    puts board.render(true)
   end
 
   def game_over
