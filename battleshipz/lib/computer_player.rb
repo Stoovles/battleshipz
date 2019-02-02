@@ -15,5 +15,9 @@ class ComputerPlayer
     end
   end
 
+  def choose_random_cells_placement
+
+  end
+
 
 end

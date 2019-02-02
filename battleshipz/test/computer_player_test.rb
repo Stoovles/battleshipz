@@ -22,4 +22,12 @@ class ComputerPlayerTest < Minitest::Test
     assert_instance_of Cell, random_cell
   end
 
+  def test_choose_random_cells_placement
+    computer_player = ComputerPlayer.new
+    board = Board.new(4,4)
+    board.board_hash
+    random_cell = computer_player.choose_random_cell(board)
+
+  end
+
 end
