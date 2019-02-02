@@ -117,19 +117,18 @@ class BoardTest < Minitest::Test
     refute board.valid_placement_consecutive?(cruiser, ["D1", "D2", "D4"])
   end
 
-  def test_valid_placement_ship? #overlap
+  def test_valid_placement_overlap? #overlap
     board = Board.new(4,4)
     board.board_hash
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
 
-    refute board.valid_placement_ship?(submarine, ["A1", "B1"])
-    refute board.valid_placement_ship?(submarine, ["A2", "B2"])
-    refute board.valid_placement_ship?(submarine, ["A2", "A3"])
-    refute board.valid_placement_ship?(submarine, ["F10", "E9"])
-    assert board.valid_placement_ship?(submarine, ["C2", "C3"])
-
+    refute board.valid_placement_overlap?(submarine, ["A1", "B1"])
+    refute board.valid_placement_overlap?(submarine, ["A2", "B2"])
+    refute board.valid_placement_overlap?(submarine, ["A2", "A3"])
+    refute board.valid_placement_overlap?(submarine, ["F10", "E9"])
+    assert board.valid_placement_overlap?(submarine, ["C2", "C3"])
   end
 
   def test_valid_placement?
@@ -176,4 +175,58 @@ class BoardTest < Minitest::Test
 
     assert_equal expected, board.render
   end
+
+  def test_it_can_render_cell_with_optional_false
+    board = Board.new(4,4)
+    board.board_hash
+    submarine = Ship.new("Submarine", 2)
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    board.place(submarine, ["D1", "D2"])
+    cell_a1 = board.cells["A1"]
+    cell_b4 = board.cells["B4"]
+    cell_d1 = board.cells["D1"]
+    cell_d2 = board.cells["D2"]
+
+    cell_a1.fire_upon
+    cell_b4.fire_upon
+    cell_d1.fire_upon
+    cell_d2.fire_upon
+
+    expected = "  1  2  3  4  \n" +
+               "A H  .  .  .  \n" +
+               "B .  .  .  M  \n" +
+               "C .  .  .  .  \n" +
+               "D X  X  .  .  \n"
+
+    assert_equal expected, board.render
+  end
+
+  def test_it_can_render_with_optional_true
+    board = Board.new(4,4)
+    board.board_hash
+
+    submarine = Ship.new("Submarine", 2)
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    board.place(submarine, ["D1", "D2"])
+    cell_a1 = board.cells["A1"]
+    cell_b4 = board.cells["B4"]
+    cell_d1 = board.cells["D1"]
+    cell_d2 = board.cells["D2"]
+
+    cell_a1.fire_upon
+    cell_b4.fire_upon
+    cell_d1.fire_upon
+    cell_d2.fire_upon
+
+    expected = "  1  2  3  4  \n" +
+               "A H  S  S  .  \n" +
+               "B .  .  .  M  \n" +
+               "C .  .  .  .  \n" +
+               "D X  X  .  .  \n"
+
+    assert_equal expected, board.render(true)
+  end
+
 end
