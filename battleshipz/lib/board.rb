@@ -8,6 +8,7 @@ class Board
     @width = width
     @length = length
     @cells = {}
+    board_hash
   end
 
   def board_hash
