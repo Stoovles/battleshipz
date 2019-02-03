@@ -135,7 +135,7 @@ class Board
       return false
     end
     if !valid_placement_overlap?(ship, coordinates)
-      puts "Your ship overlap. Invalid!"
+      puts "Your ship overlaps. Invalid!"
       return false
     end
       return true
@@ -146,6 +146,9 @@ class Board
       coordinates.each do |coord|
         @cells[coord].place_ship(ship)
       end
+      return true
+    else
+      return false
     end
   end
 
