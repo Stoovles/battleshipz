@@ -6,18 +6,14 @@ require './lib/computer_player'
 
 class Game
 
-attr_reader :rows, :columns, :computer_board, :player_board,
-            :computer_submarine, :computer_cruiser,
-            :player_submarine, :player_cruiser
+# attr_reader :rows, :columns, :computer_board, :player_board,
+#             :computer_submarine, :computer_cruiser
 
   def initialize
     @rows = 4
     @columns = 4
-    @computer_board = {}
-    @computer_submarine = Ship.new("Submarine", 2)
-    @computer_cruiser = Ship.new("Cruiser", 3)
   end
-  
+
    def start
     main_menu
     board_setup
@@ -41,7 +37,7 @@ attr_reader :rows, :columns, :computer_board, :player_board,
       end
     end
   end
-  
+
   def board_setup
     puts "The game board is a grid. Choose a number for the x axis."
     print "> "
@@ -56,7 +52,9 @@ attr_reader :rows, :columns, :computer_board, :player_board,
   def computer_start
     @computer_board = Board.new(@rows, @columns)
     computer_player = ComputerPlayer.new
-    
+    @computer_submarine = Ship.new("Submarine", 2)
+    @computer_cruiser = Ship.new("Cruiser", 3)
+
     random_cell = computer_player.choose_random_cell(@computer_board)
     submarine_coordinates = computer_player.choose_random_cells_placement_submarine(@computer_board, random_cell)
     @computer_board.place(@computer_submarine, submarine_coordinates)
@@ -68,36 +66,36 @@ attr_reader :rows, :columns, :computer_board, :player_board,
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
   end
-  
-    def human_place_cruiser
+
+  def human_place_cruiser
     puts "The cruiser is three coordinates long and the submarine is two."
     puts "Enter three consecutive coordinates for the cruiser:"
     print "> "
     human_cruiser_coordinates = gets.chomp.split
-    cruiser = Ship.new("Cruiser", 3)
-    if @human_board.place(cruiser, human_cruiser_coordinates)
+    @human_cruiser = Ship.new("Cruiser", 3)
+    if @human_board.place(@human_cruiser, human_cruiser_coordinates) == false
       human_place_cruiser
     end
     puts @human_board.render(true)
   end
-  
-    def human_place_submarine
+
+  def human_place_submarine
     puts "Enter two consecutive coordinates for the submarine:"
     print "> "
     human_sub_coordinates = gets.chomp.split
-    submarine = Ship.new("Submarine", 2)
-    if @human_board.place(submarine, human_sub_coordinates) == false
+    @human_submarine = Ship.new("Submarine", 2)
+    if @human_board.place(@human_submarine, human_sub_coordinates) == false
       human_place_submarine
     end
     puts @human_board.render(true)
-    end
-  
+  end
+
   def turn_start
     until game_over
       puts "=================COMPUTER BOARD================="
       puts @computer_board.render
       puts "=================PLAYER BOARD==================="
-      puts @player_board.render(true)
+      puts @human_board.render(true)
       puts "Enter the coordinate for your shot:"
       shot = gets.chomp
       until @computer_board.valid_coordinate?(shot)
@@ -114,9 +112,9 @@ attr_reader :rows, :columns, :computer_board, :player_board,
         end
       end
       chosen_cell.fire_upon
-      random_computer_guess = @player_board.cells.values.sample
+      random_computer_guess = @human_board.cells.values.sample
       until random_computer_guess.fired_upon? == false
-        random_computer_guess = @player_board.cells.values.sample
+        random_computer_guess = @human_board.cells.values.sample
       end
       random_computer_guess.fire_upon
 
@@ -124,6 +122,7 @@ attr_reader :rows, :columns, :computer_board, :player_board,
       puts "Your shot on #{chosen_cell.coordinate} was a #{chosen_cell.render}."
       puts "My shot on #{random_computer_guess.coordinate} was a #{random_computer_guess.render}."
     end
+    start
   end
 
   def game_over
@@ -131,11 +130,11 @@ attr_reader :rows, :columns, :computer_board, :player_board,
       puts "You won!"
       return true
     end
-    if @player_submarine.sunk? && @player_cruiser.sunk?
+    if @human_submarine.sunk? && @human_cruiser.sunk?
       puts "I won!"
       return true
     end
     return false
   end
-  
+
 end
