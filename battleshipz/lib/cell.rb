@@ -1,3 +1,9 @@
+require 'pry'
+require './lib/ship'
+require './lib/board'
+require './lib/game'
+require './lib/computer_player'
+
 class Cell
 
 attr_reader :coordinate, :ship

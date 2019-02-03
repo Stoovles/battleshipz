@@ -138,7 +138,7 @@ class Board
       puts "Your ship overlaps. Invalid!"
       return false
     end
-      return true
+  return true
   end
 
   def place(ship, coordinates)
@@ -151,28 +151,6 @@ class Board
       return false
     end
   end
-
-  # def render(optional = false)
-  #   #output for 4 x 4 board => 1 2 3 4
-  #   render_variable = ""
-  #   (1..@width).each do |number|
-  #     render_variable << "  #{number}"
-  #   end
-  #   render_variable = "#{render_variable}  \n"
-  #   counter = 0
-  #   @cells.values.each do |cell_object|
-  #     if counter == 0
-  #       render_variable << "#{cell_object.coordinate[0]} "
-  #     end
-  #     render_variable << "#{cell_object.render}  "
-  #     counter += 1
-  #     if counter == @width
-  #       render_variable << "\n"
-  #       counter = 0
-  #     end
-  #   end
-  #   render_variable
-  # end
 
   def render(optional = false)
     #output for 4 x 4 board => 1 2 3 4

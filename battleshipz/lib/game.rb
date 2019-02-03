@@ -2,93 +2,140 @@ require 'pry'
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
-require './lib/player'
 require './lib/computer_player'
 
 class Game
 
-  def start
+attr_reader :rows, :columns, :computer_board, :player_board,
+            :computer_submarine, :computer_cruiser,
+            :player_submarine, :player_cruiser
+
+  def initialize
+    @rows = 4
+    @columns = 4
+    @computer_board = {}
+    @computer_submarine = Ship.new("Submarine", 2)
+    @computer_cruiser = Ship.new("Cruiser", 3)
+  end
+  
+   def start
     main_menu
     board_setup
+    computer_start
     human_place_cruiser
     human_place_submarine
-    # computer_ship_placement
+    turn_start
   end
 
-  def main_menu #also needs this option at end of game
-    puts "Welcome to Battleshipz!"
-    puts "Enter p to play. Enter q to quit."
-    print "> "
-    play_or_quit = gets.chomp
-    if play_or_quit == "q"
-      exit
+  def main_menu #check while loop
+    continue = 1
+    while continue == 1
+      puts "Welcome to BATTLESHIP \nEnter p to play. Enter q to quit."
+      decision = gets.chomp
+      if decision == "q"
+        abort("Well fine, I didn't want to play with you anyway!")
+      elsif decision == "p"
+        continue = 0
+      else
+        puts "Let's try that again..."
+      end
     end
   end
-
+  
   def board_setup
     puts "The game board is a grid. Choose a number for the x axis."
     print "> "
-    x_axis_length = gets.chomp.to_i
+    @rows = gets.chomp.to_i
     puts "Now choose a number for the y axis."
     print "> "
-    y_axis_width = gets.chomp.to_i
-    @board = Board.new(y_axis_width, x_axis_length)
-    puts @board.render
+    @columns = gets.chomp.to_i
+    @human_board = Board.new(@rows, @columns)
+    puts @human_board.render
   end
-    # computer_ship_placement
-    # puts "I have laid out my ships on the board."
-    # puts "Now it's your turn."
-  def human_place_cruiser
+
+  def computer_start
+    @computer_board = Board.new(@rows, @columns)
+    computer_player = ComputerPlayer.new
+    
+    random_cell = computer_player.choose_random_cell(@computer_board)
+    submarine_coordinates = computer_player.choose_random_cells_placement_submarine(@computer_board, random_cell)
+    @computer_board.place(@computer_submarine, submarine_coordinates)
+
+    random_cell = computer_player.choose_random_cell(@computer_board)
+    cruiser_coordinates = computer_player.choose_random_cells_placement_cruiser(@computer_board, random_cell)
+    @computer_board.place(@computer_cruiser, cruiser_coordinates)
+    puts "Hello Hooman, my name is Rob. I will be your opponent."
+    puts "I have laid out my ships on the grid."
+    puts "You now need to lay out your two ships."
+  end
+  
+    def human_place_cruiser
     puts "The cruiser is three coordinates long and the submarine is two."
     puts "Enter three consecutive coordinates for the cruiser:"
     print "> "
     human_cruiser_coordinates = gets.chomp.split
     cruiser = Ship.new("Cruiser", 3)
-    @board.place(cruiser, human_cruiser_coordinates)
-    puts @board.render(true)
+    if @human_board.place(cruiser, human_cruiser_coordinates)
+      human_place_cruiser
+    end
+    puts @human_board.render(true)
   end
-
-  def human_place_submarine
+  
+    def human_place_submarine
     puts "Enter two consecutive coordinates for the submarine:"
     print "> "
     human_sub_coordinates = gets.chomp.split
     submarine = Ship.new("Submarine", 2)
-    if @board.place(submarine, human_sub_coordinates) == false
+    if @human_board.place(submarine, human_sub_coordinates) == false
       human_place_submarine
     end
-    puts @board.render(true)
+    puts @human_board.render(true)
+    end
+  
+  def turn_start
+    until game_over
+      puts "=================COMPUTER BOARD================="
+      puts @computer_board.render
+      puts "=================PLAYER BOARD==================="
+      puts @player_board.render(true)
+      puts "Enter the coordinate for your shot:"
+      shot = gets.chomp
+      until @computer_board.valid_coordinate?(shot)
+        puts "Please enter a valid coordinate:"
+        shot = gets.chomp
+      end
+      chosen_cell = @computer_board.cells[shot]
+      if chosen_cell.fired_upon?
+        while chosen_cell.fired_upon?
+        puts "Oops, you've aready fired upon this cell."
+        puts "Please select another coordiante:"
+        shot = gets.chomp
+        chosen_cell = @computer_board.cells[shot]
+        end
+      end
+      chosen_cell.fire_upon
+      random_computer_guess = @player_board.cells.values.sample
+      until random_computer_guess.fired_upon? == false
+        random_computer_guess = @player_board.cells.values.sample
+      end
+      random_computer_guess.fire_upon
 
+      puts "Results from this turn are as follows:"
+      puts "Your shot on #{chosen_cell.coordinate} was a #{chosen_cell.render}."
+      puts "My shot on #{random_computer_guess.coordinate} was a #{random_computer_guess.render}."
+    end
   end
 
   def game_over
-    main_menu
+    if @computer_submarine.sunk? && @computer_cruiser.sunk?
+      puts "You won!"
+      return true
+    end
+    if @player_submarine.sunk? && @player_cruiser.sunk?
+      puts "I won!"
+      return true
+    end
+    return false
   end
-
-
-  # def start
-  #   puts "Welcome! You're playing with #{@deck.count} cards."
-  #   puts "-------------------------------------------------"
-  #   play_game
-  #   game_over
-  # end
-
-
-  # def play_game
-  #   @deck.cards.each do |card|
-  #     puts "This is card number #{@current_card_index + 1} out of #{@deck.count}."
-  #     puts "Question: #{current_card.question}"
-  #     guess = gets.chomp
-  #     turn = take_turn(guess)
-  #     puts turn.feedback
-  #     puts "-------------------------------------------------"
-  #   end
-  # end
-  #
-  # def game_over
-  #   puts "****** Game over! ******"
-  #   puts "You had #{number_correct} correct guesses out of #{@turns.count} for a total score of #{percent_correct}%."
-  #   @deck.card_categories.each do |category|
-  #     puts "#{category}: #{percent_correct_by_category(category)}% correct."
-  #   end
-  # end
+  
 end
