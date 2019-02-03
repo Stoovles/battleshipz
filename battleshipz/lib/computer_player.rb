@@ -15,22 +15,76 @@ class ComputerPlayer
     end
   end
 
-  def choose_random_cells_placement(board, random_cell, ship)
-    random_cell_ord = random_cell.coordinate[0].ord + random_cell.coordinate[1].to_i
+  def choose_random_cells_placement_submarine(board, random_cell)
 
-    ship.length - 1.times do
-      possible_next_cell = board.cells.values.find_all do |cell_object|
-        cell_object.coordinate[0].ord + cell_object.coordinate[1].to_i == random_cell_ord + 1 ||
-        cell_object.coordinate[0].ord + cell_object.coordinate[1].to_i == random_cell_ord - 1
-      end
-      possible_next_cell.each do |cell_object|
-        if board.valid_placement(ship, [cell_object.coordinate, random_cell.coordinate])
-          ship_coordinates = [cell.object.coordinate, random_cell.coordinate]
-        end
-      end
+    possible_next_cells = board.cells.values.find_all do |cell_object|
+      random_cell.coordinate[0].ord + 1 == cell_object.coordinate[0].ord &&
+      random_cell.coordinate[1] == cell_object.coordinate[1] ||
+      random_cell.coordinate[0].ord - 1 == cell_object.coordinate[0].ord &&
+      random_cell.coordinate[1] == cell_object.coordinate[1] ||
+      random_cell.coordinate[0] == cell_object.coordinate[0] &&
+      random_cell.coordinate[1].to_i + 1 == cell_object.coordinate[1].to_i ||
+      random_cell.coordinate[0] == cell_object.coordinate[0] &&
+      random_cell.coordinate[1].to_i - 1 == cell_object.coordinate[1].to_i
+    end
+    possible_next_cells = possible_next_cells.find_all do |cell_object|
+      cell_object.empty?
+    end
+    next_cell = possible_next_cells.sample
+    coordinates_for_submarine = [random_cell.coordinate, next_cell.coordinate]
     end
 
-  end
+    def choose_random_cells_placement_cruiser(board, random_cell)
+      cruiser_coordinates = []
+      cruiser_coordinates << random_cell.coordinate
+      possible_next_cells = board.cells.values.find_all do |cell_object|
+        random_cell.coordinate[0].ord + 1 == cell_object.coordinate[0].ord &&
+        random_cell.coordinate[1] == cell_object.coordinate[1] ||
+        random_cell.coordinate[0].ord - 1 == cell_object.coordinate[0].ord &&
+        random_cell.coordinate[1] == cell_object.coordinate[1] ||
+        random_cell.coordinate[0] == cell_object.coordinate[0] &&
+        random_cell.coordinate[1].to_i + 1 == cell_object.coordinate[1].to_i ||
+        random_cell.coordinate[0] == cell_object.coordinate[0] &&
+        random_cell.coordinate[1].to_i - 1 == cell_object.coordinate[1].to_i
+      end
+      possible_next_cells = possible_next_cells.find_all do |cell_object|
+        cell_object.empty?
+      end
+      next_cell = possible_next_cells.sample
+      cruiser_coordinates << next_cell.coordinate
+      if random_cell.coordinate[0].ord + 1 == next_cell.coordinate[0].ord
+        possible_next_cells = board.cells.values.find_all do |cell_object|
+          random_cell.coordinate[0].ord - 1 == cell_object.coordinate[0].ord &&
+          random_cell.coordinate[1] == cell_object.coordinate[1] ||
+          random_cell.coordinate[0].ord - 2 == cell_object.coordinate[0].ord &&
+          random_cell.coordinate[1] == cell_object.coordinate[1]
+        end
+        elsif random_cell.coordinate[0].ord - 1 == next_cell.coordinate[0].ord
+          possible_next_cells = board.cells.values.find_all do |cell_object|
+            random_cell.coordinate[0].ord + 1 == cell_object.coordinate[0].ord &&
+            random_cell.coordinate[1] == cell_object.coordinate[1] ||
+            random_cell.coordinate[0].ord + 2 == cell_object.coordinate[0].ord &&
+            random_cell.coordinate[1] == cell_object.coordinate[1]
+          end
+        elsif random_cell.coordinate[1].to_i + 1 = next_cell.coordinate[1].to_i
+          possible_next_cells = board.cells.values.find_all do |cell_object|
+            random_cell.coordinate[0] == cell_object.coordinate[0] &&
+            random_cell.coordinate[1].to_i - 1 == cell_object.coordinate[1].to_i ||
+            random_cell.coordinate[0] == cell_object.coordinate[0] &&
+            random_cell.coordinate[1].to_i - 2 == cell_object.coordinate[1].to_i
+          end
+        elsif random_cell.coordinate[1].to_i - 1 = next_cell.coordinate[1].to_i
+          possible_next_cells = board.cells.values.find_all do |cell_object|
+            random_cell.coordinate[0] == cell_object.coordinate[0] &&
+            random_cell.coordinate[1].to_i + 1 == cell_object.coordinate[1].to_i ||
+            random_cell.coordinate[0] == cell_object.coordinate[0] &&
+            random_cell.coordinate[1].to_i + 2 == cell_object.coordinate[1].to_i
+          end
+      end
+      possible_next_cells = possible_next_cells.find_all do |cell_object|
+        cell_object.empty?
+      next_cell = possible_next_cells.sample
 
 
+      end
 end
