@@ -22,7 +22,7 @@ class ComputerPlayerTest < Minitest::Test
     assert_instance_of Cell, random_cell
   end
 
-  def test_choose_random_cells_placement_validity
+  def test_choose_random_cells_placement_cruiser_validity
     computer_player = ComputerPlayer.new
     board = Board.new(4,4)
     board.board_hash
@@ -30,7 +30,7 @@ class ComputerPlayerTest < Minitest::Test
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
 
-    assert_equal [], computer_player.choose_random_cells_placement(board, random_cell, cruiser)
+    assert_equal [], computer_player.choose_random_cells_placement_cruiser(board, random_cell)
   end
 
 
