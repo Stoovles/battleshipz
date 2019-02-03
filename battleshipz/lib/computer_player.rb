@@ -51,12 +51,9 @@ class ComputerPlayer
       possible_next_cells = possible_next_cells.find_all do |cell_object|
         cell_object.empty?
       end
-      puts "Random cell: #{random_cell.coordinate}"
-      puts "these are the possible next cells: #{possible_next_cells}"
       ##########################################################################
       while cruiser_coordinates.length < 3
         next_cell = possible_next_cells.sample
-        puts "next cell: #{next_cell}"
         cruiser_coordinates << next_cell.coordinate
         if random_cell.coordinate[0].ord + 1 == next_cell.coordinate[0].ord
           possible_next_cells = board.cells.values.find_all do |cell_object|
@@ -93,11 +90,9 @@ class ComputerPlayer
         if possible_next_cells.length == 0
           cruiser_coordinates.pop
         end
-        puts "these are the cells: #{possible_next_cells}"
         next_cell = possible_next_cells.sample
         cruiser_coordinates << next_cell.coordinate
       end
-      binding.pry
       ##########################################################################
     end
 
