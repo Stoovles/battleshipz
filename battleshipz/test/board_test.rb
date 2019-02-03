@@ -3,6 +3,8 @@ require 'minitest/pride'
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
+require './lib/game'
+require './lib/computer_player'
 
 class BoardTest < Minitest::Test
 

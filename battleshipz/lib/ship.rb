@@ -1,3 +1,9 @@
+require 'pry'
+require './lib/cell'
+require './lib/board'
+require './lib/game'
+require './lib/computer_player'
+
 class Ship
 
   attr_reader :name,
