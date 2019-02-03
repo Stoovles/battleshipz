@@ -13,15 +13,21 @@ attr_reader :rows, :columns, :computer_board, :player_board,
   def initialize
     @rows = 4
     @columns = 4
-    @@computer_board = {}
-    @player_board = {}
+    @computer_board = {}
     @computer_submarine = Ship.new("Submarine", 2)
     @computer_cruiser = Ship.new("Cruiser", 3)
-    @player_submarine = Ship.new("Submarine", 2)
-    @player_cruiser = Ship.new("Cruiser", 3)
+  end
+  
+   def start
+    main_menu
+    board_setup
+    computer_start
+    human_place_cruiser
+    human_place_submarine
+    turn_start
   end
 
-  def start
+  def main_menu #check while loop
     continue = 1
     while continue == 1
       puts "Welcome to BATTLESHIP \nEnter p to play. Enter q to quit."
@@ -30,29 +36,27 @@ attr_reader :rows, :columns, :computer_board, :player_board,
         abort("Well fine, I didn't want to play with you anyway!")
       elsif decision == "p"
         continue = 0
-        game_start
       else
         puts "Let's try that again..."
       end
     end
   end
-
-  def game_start
-    puts "Please determine the size of your board!"
-    puts "Enter how many rows you would like:"
+  
+  def board_setup
+    puts "The game board is a grid. Choose a number for the x axis."
+    print "> "
     @rows = gets.chomp.to_i
-    puts "Enter how many columns you would like:"
+    puts "Now choose a number for the y axis."
+    print "> "
     @columns = gets.chomp.to_i
-    computer_start
-
-
+    @human_board = Board.new(@rows, @columns)
+    puts @human_board.render
   end
 
   def computer_start
     @computer_board = Board.new(@rows, @columns)
-    @computer_board.board_hash
     computer_player = ComputerPlayer.new
-
+    
     random_cell = computer_player.choose_random_cell(@computer_board)
     submarine_coordinates = computer_player.choose_random_cells_placement_submarine(@computer_board, random_cell)
     @computer_board.place(@computer_submarine, submarine_coordinates)
@@ -60,48 +64,34 @@ attr_reader :rows, :columns, :computer_board, :player_board,
     random_cell = computer_player.choose_random_cell(@computer_board)
     cruiser_coordinates = computer_player.choose_random_cells_placement_cruiser(@computer_board, random_cell)
     @computer_board.place(@computer_cruiser, cruiser_coordinates)
-    player_start
-  end
-
-  def player_start
-    @player_board = Board.new(@rows, @columns)
-    @player_board.board_hash
     puts "Hello Hooman, my name is Rob. I will be your opponent."
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
-    puts "The Cruiser is two units long and the Submarine is three units long."
-
-    puts @player_board.render(true)
-
-    continue = 0
-    while continue == 0
-      puts "Enter the squares for the Cruiser (3 spaces):"
-      cruiser_coordinates = gets.chomp
-      cruiser_coordinates = cruiser_coordinates.split
-      if @player_board.valid_placement?(@player_cruiser, cruiser_coordinates)
-        @player_board.place(@player_cruiser, cruiser_coordinates)
-        puts @player_board.render(true)
-        continue = 1
-      else
-        puts "Those are invalid coordinates."
-      end
-    end
-    continue = 0
-    while continue == 0
-      puts "Enter the squares for the Submarine (2 Spaces):"
-      submarine_coordinates = gets.chomp
-      submarine_coordinates = submarine_coordinates.split
-      if @player_board.valid_placement?(@player_submarine, submarine_coordinates)
-        @player_board.place(@player_submarine, submarine_coordinates)
-        puts @player_board.render(true)
-        continue = 1
-      else
-        puts "Those are invalid coordinates."
-      end
-    end
-    turn_start
   end
-
+  
+    def human_place_cruiser
+    puts "The cruiser is three coordinates long and the submarine is two."
+    puts "Enter three consecutive coordinates for the cruiser:"
+    print "> "
+    human_cruiser_coordinates = gets.chomp.split
+    cruiser = Ship.new("Cruiser", 3)
+    if @human_board.place(cruiser, human_cruiser_coordinates)
+      human_place_cruiser
+    end
+    puts @human_board.render(true)
+  end
+  
+    def human_place_submarine
+    puts "Enter two consecutive coordinates for the submarine:"
+    print "> "
+    human_sub_coordinates = gets.chomp.split
+    submarine = Ship.new("Submarine", 2)
+    if @human_board.place(submarine, human_sub_coordinates) == false
+      human_place_submarine
+    end
+    puts @human_board.render(true)
+    end
+  
   def turn_start
     until game_over
       puts "=================COMPUTER BOARD================="
@@ -134,7 +124,6 @@ attr_reader :rows, :columns, :computer_board, :player_board,
       puts "Your shot on #{chosen_cell.coordinate} was a #{chosen_cell.render}."
       puts "My shot on #{random_computer_guess.coordinate} was a #{random_computer_guess.render}."
     end
-
   end
 
   def game_over
@@ -148,6 +137,5 @@ attr_reader :rows, :columns, :computer_board, :player_board,
     end
     return false
   end
-
-##############################################################
+  
 end

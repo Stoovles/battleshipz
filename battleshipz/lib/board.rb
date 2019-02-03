@@ -8,6 +8,7 @@ class Board
     @width = width
     @length = length
     @cells = {}
+    board_hash
   end
 
   def board_hash
@@ -121,16 +122,20 @@ class Board
   def valid_placement?(ship, coordinates)
     coordinates.sort!
     if !valid_placement_length?(ship, coordinates)
+      puts "Invalid number of coordinates."
       return false
     end
     # true = continue to vp_coordinate; false = "Invalid coordinates."
     if !valid_placement_coordinate?(ship, coordinates)
+      puts "Invalid coordinate."
       return false
     end
     if !valid_placement_consecutive?(ship, coordinates)
+      puts "Coordinates are not consecutive. Invalid!"
       return false
     end
     if !valid_placement_overlap?(ship, coordinates)
+      puts "Your ship overlaps. Invalid!"
       return false
     end
   return true
@@ -141,6 +146,9 @@ class Board
       coordinates.each do |coord|
         @cells[coord].place_ship(ship)
       end
+      return true
+    else
+      return false
     end
   end
 
