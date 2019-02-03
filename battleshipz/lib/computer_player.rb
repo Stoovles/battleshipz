@@ -17,7 +17,7 @@ class ComputerPlayer
 
   def choose_random_cells_placement_submarine(board, random_cell)
     submarine_coordinates = []
-    submarine_coordinates << random_cell
+    submarine_coordinates << random_cell.coordinate
     possible_next_cells = board.cells.values.find_all do |cell_object|
       random_cell.coordinate[0].ord + 1 == cell_object.coordinate[0].ord &&
       random_cell.coordinate[1] == cell_object.coordinate[1] ||
@@ -33,7 +33,9 @@ class ComputerPlayer
     end
     next_cell = possible_next_cells.sample
     submarine_coordinates << next_cell.coordinate
-    end
+    # binding.pry
+    return submarine_coordinates
+  end
 
     def choose_random_cells_placement_cruiser(board, random_cell)
       cruiser_coordinates = []
@@ -93,6 +95,7 @@ class ComputerPlayer
         next_cell = possible_next_cells.sample
         cruiser_coordinates << next_cell.coordinate
       end
+      return cruiser_coordinates
       ##########################################################################
     end
 
