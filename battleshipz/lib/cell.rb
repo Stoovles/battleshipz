@@ -24,7 +24,7 @@ attr_reader :coordinate, :ship
 
   def fire_upon
     @fired_upon = true
-    if @ship != nil
+    if @ship != nil #!empty?
       @ship.hit
     end
   end
@@ -40,10 +40,20 @@ attr_reader :coordinate, :ship
       "H"
     elsif fired_upon? && empty?
       "M"
-    elsif optional == true && @ship != nil
+    elsif optional == true && @ship != nil #!empty?
       "S"
     else
       "."
+    end
+  end
+
+  def render_word
+    if render == "M"
+     "miss"
+    elsif render == "H"
+      "hit"
+    else
+      "hit"
     end
   end
 

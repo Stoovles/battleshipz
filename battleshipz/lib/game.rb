@@ -106,7 +106,7 @@ class Game
       if chosen_cell.fired_upon?
         while chosen_cell.fired_upon?
         puts "Oops, you've aready fired upon this cell."
-        puts "Please select another coordiante:"
+        puts "Please select another coordinate:"
         shot = gets.chomp
         chosen_cell = @computer_board.cells[shot]
         end
@@ -117,10 +117,9 @@ class Game
         random_computer_guess = @human_board.cells.values.sample
       end
       random_computer_guess.fire_upon
-
       puts "Results from this turn are as follows:"
-      puts "Your shot on #{chosen_cell.coordinate} was a #{chosen_cell.render}."
-      puts "My shot on #{random_computer_guess.coordinate} was a #{random_computer_guess.render}."
+      puts "Your shot on #{chosen_cell.coordinate} was a #{chosen_cell.render_word}."
+      puts "My shot on #{random_computer_guess.coordinate} was a #{random_computer_guess.render_word}."
     end
     start
   end
