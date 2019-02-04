@@ -21,7 +21,7 @@ class ComputerPlayer
     end
   end
 
-  def possible_adjacent_cells
+  def possible_adjacent_cells(random_cell)
     random_cell.coordinate[0].ord + 1 == cell_object.coordinate[0].ord &&
     random_cell.coordinate[1] == cell_object.coordinate[1] ||
     random_cell.coordinate[0].ord - 1 == cell_object.coordinate[0].ord &&
@@ -32,11 +32,18 @@ class ComputerPlayer
     random_cell.coordinate[1].to_i - 1 == cell_object.coordinate[1].to_i
   end
 
+  # def possible_cells_above_adjacent_by_2_and_below_adjacent_by_1
+  #   random_cell.coordinate[0].ord - 1 == cell_object.coordinate[0].ord &&
+  #   random_cell.coordinate[1] == cell_object.coordinate[1] ||
+  #   random_cell.coordinate[0].ord + 2 == cell_object.coordinate[0].ord &&
+  #   random_cell.coordinate[1] == cell_object.coordinate[1]
+  # end
+
   def choose_random_cells_placement_submarine(board, random_cell)
     submarine_coordinates = []
     submarine_coordinates << random_cell.coordinate
     possible_next_cells = board.cells.values.find_all do |cell_object|
-      possible_adjacent_cells
+      possible_adjacent_cells(random_cell)
     end
     possible_next_cells = possible_next_cells.find_all do |cell_object|
       cell_object.empty?
@@ -51,7 +58,7 @@ class ComputerPlayer
       cruiser_coordinates = []
       cruiser_coordinates << random_cell.coordinate
       possible_next_cells = board.cells.values.find_all do |cell_object|
-        possible_adjacent_cells
+        possible_adjacent_cells(random_cell)
       end
       possible_next_cells = possible_next_cells.find_all do |cell_object|
         cell_object.empty?
