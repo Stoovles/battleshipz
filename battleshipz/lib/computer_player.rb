@@ -32,12 +32,33 @@ class ComputerPlayer
     random_cell.coordinate[1].to_i - 1 == cell_object.coordinate[1].to_i
   end
 
-  # def possible_cells_above_adjacent_by_2_and_below_adjacent_by_1
-  #   random_cell.coordinate[0].ord - 1 == cell_object.coordinate[0].ord &&
-  #   random_cell.coordinate[1] == cell_object.coordinate[1] ||
-  #   random_cell.coordinate[0].ord + 2 == cell_object.coordinate[0].ord &&
-  #   random_cell.coordinate[1] == cell_object.coordinate[1]
-  # end
+  def possible_cells_above_random_cell_by_1_and_below_by_2(random_cell, cell_object)
+    random_cell.coordinate[0].ord - 1 == cell_object.coordinate[0].ord &&
+    random_cell.coordinate[1] == cell_object.coordinate[1] ||
+    random_cell.coordinate[0].ord + 2 == cell_object.coordinate[0].ord &&
+    random_cell.coordinate[1] == cell_object.coordinate[1]
+  end
+
+  def possible_cells_above_random_cell_by_2_and_below_by_1(random_cell, cell_object)
+    random_cell.coordinate[0].ord + 1 == cell_object.coordinate[0].ord &&
+    random_cell.coordinate[1] == cell_object.coordinate[1] ||
+    random_cell.coordinate[0].ord - 2 == cell_object.coordinate[0].ord &&
+    random_cell.coordinate[1] == cell_object.coordinate[1]
+  end
+
+  def possible_cells_left_random_cell_by_1_and_right_by_2(random_cell, cell_object)
+    random_cell.coordinate[0] == cell_object.coordinate[0] &&
+    random_cell.coordinate[1].to_i - 1 == cell_object.coordinate[1].to_i ||
+    random_cell.coordinate[0] == cell_object.coordinate[0] &&
+    random_cell.coordinate[1].to_i + 2 == cell_object.coordinate[1].to_i
+  end
+
+  def possible_cells_left_random_cell_by_2_and_right_by_1(random_cell, cell_object)
+    random_cell.coordinate[0] == cell_object.coordinate[0] &&
+    random_cell.coordinate[1].to_i + 1 == cell_object.coordinate[1].to_i ||
+    random_cell.coordinate[0] == cell_object.coordinate[0] &&
+    random_cell.coordinate[1].to_i - 2 == cell_object.coordinate[1].to_i
+  end
 
   def choose_random_cells_placement_submarine(board, random_cell)
     submarine_coordinates = []
@@ -69,31 +90,19 @@ class ComputerPlayer
         cruiser_coordinates << next_cell.coordinate
         if random_cell.coordinate[0].ord + 1 == next_cell.coordinate[0].ord
           possible_next_cells = board.cells.values.find_all do |cell_object|
-            random_cell.coordinate[0].ord - 1 == cell_object.coordinate[0].ord &&
-            random_cell.coordinate[1] == cell_object.coordinate[1] ||
-            random_cell.coordinate[0].ord + 2 == cell_object.coordinate[0].ord &&
-            random_cell.coordinate[1] == cell_object.coordinate[1]
+            possible_cells_above_random_cell_by_1_and_below_by_2(random_cell, cell_object)
           end
           elsif random_cell.coordinate[0].ord - 1 == next_cell.coordinate[0].ord
             possible_next_cells = board.cells.values.find_all do |cell_object|
-              random_cell.coordinate[0].ord + 1 == cell_object.coordinate[0].ord &&
-              random_cell.coordinate[1] == cell_object.coordinate[1] ||
-              random_cell.coordinate[0].ord - 2 == cell_object.coordinate[0].ord &&
-              random_cell.coordinate[1] == cell_object.coordinate[1]
+              possible_cells_above_random_cell_by_2_and_below_by_1(random_cell, cell_object)
             end
           elsif random_cell.coordinate[1].to_i + 1 == next_cell.coordinate[1].to_i
             possible_next_cells = board.cells.values.find_all do |cell_object|
-              random_cell.coordinate[0] == cell_object.coordinate[0] &&
-              random_cell.coordinate[1].to_i - 1 == cell_object.coordinate[1].to_i ||
-              random_cell.coordinate[0] == cell_object.coordinate[0] &&
-              random_cell.coordinate[1].to_i + 2 == cell_object.coordinate[1].to_i
+              possible_cells_left_random_cell_by_1_and_right_by_2(random_cell, cell_object)
             end
           elsif random_cell.coordinate[1].to_i - 1 == next_cell.coordinate[1].to_i
             possible_next_cells = board.cells.values.find_all do |cell_object|
-              random_cell.coordinate[0] == cell_object.coordinate[0] &&
-              random_cell.coordinate[1].to_i + 1 == cell_object.coordinate[1].to_i ||
-              random_cell.coordinate[0] == cell_object.coordinate[0] &&
-              random_cell.coordinate[1].to_i - 2 == cell_object.coordinate[1].to_i
+              possible_cells_left_random_cell_by_2_and_right_by_1(random_cell, cell_object)
             end
         end
         possible_next_cells = possible_next_cells.find_all do |cell_object|
