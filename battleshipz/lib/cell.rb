@@ -53,7 +53,7 @@ attr_reader :coordinate, :ship
     elsif render == "H"
       "hit"
     else render == "X"
-      "death blow. The ship has been destroyed."
+      "death blow. The ship has been destroyed"
     end
   end
 
