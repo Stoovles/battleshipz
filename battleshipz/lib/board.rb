@@ -122,20 +122,20 @@ class Board
   def valid_placement?(ship, coordinates)
     coordinates.sort!
     if !valid_placement_length?(ship, coordinates)
-      "Invalid number of coordinates."
+      puts "Invalid number of coordinates."
       return false
     end
     # true = continue to vp_coordinate; false = "Invalid coordinates."
     if !valid_placement_coordinate?(ship, coordinates)
-      "Invalid coordinate."
+      puts "Invalid coordinate."
       return false
     end
     if !valid_placement_consecutive?(ship, coordinates)
-      "Coordinates are not consecutive. Invalid!"
+      puts "Coordinates are not consecutive. Invalid!"
       return false
     end
     if !valid_placement_overlap?(ship, coordinates)
-      "Your ship overlaps. Invalid!"
+      puts "Your ship overlaps. Invalid!"
       return false
     end
   return true
