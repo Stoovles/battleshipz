@@ -24,7 +24,7 @@ attr_reader :coordinate, :ship
 
   def fire_upon
     @fired_upon = true
-    if !empty? 
+    if !empty?
       @ship.hit
     end
   end
@@ -52,8 +52,8 @@ attr_reader :coordinate, :ship
      "miss"
     elsif render == "H"
       "hit"
-    else
-      "hit"
+    else render == "X"
+      "death blow. The ship has been destroyed."
     end
   end
 
