@@ -235,7 +235,7 @@ class ComputerPlayer
         cruiser_coordinates.pop
       end
       next_cell = possible_next_cells.sample
-      if next_cell != nil
+      if next_cell != nil #I think this if nil statement fixed the error
         cruiser_coordinates << next_cell.coordinate #error happens here every once in awhile - reference screenshot
       end
     end
