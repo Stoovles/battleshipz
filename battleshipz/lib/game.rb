@@ -51,16 +51,16 @@ class Game
 
   def computer_start
     @computer_board = Board.new(@rows, @columns)
-    computer_player = ComputerPlayer.new
+    @computer_player = ComputerPlayer.new
     @computer_submarine = Ship.new("Submarine", 2)
     @computer_cruiser = Ship.new("Cruiser", 3)
 
-    random_cell = computer_player.choose_random_cell(@computer_board)
-    submarine_coordinates = computer_player.choose_random_cells_placement_submarine(@computer_board, random_cell)
+    random_cell = @computer_player.choose_random_cell(@computer_board)
+    submarine_coordinates = @computer_player.choose_random_cells_placement_submarine(@computer_board, random_cell)
     @computer_board.place(@computer_submarine, submarine_coordinates)
 
-    random_cell = computer_player.choose_random_cell(@computer_board)
-    cruiser_coordinates = computer_player.choose_random_cells_placement_cruiser(@computer_board, random_cell)
+    random_cell = @computer_player.choose_random_cell(@computer_board)
+    cruiser_coordinates = @computer_player.choose_random_cells_placement_cruiser(@computer_board, random_cell)
     @computer_board.place(@computer_cruiser, cruiser_coordinates)
     puts "Hello Hooman, my name is Rob. I will be your opponent."
     puts "I have laid out my ships on the grid."
@@ -112,14 +112,24 @@ class Game
         end
       end
       chosen_cell.fire_upon
-      random_computer_guess = @human_board.cells.values.sample
-      until random_computer_guess.fired_upon? == false
-        random_computer_guess = @human_board.cells.values.sample
-      end
-      random_computer_guess.fire_upon
+      computer_shot = @computer_player.smart_computer(@human_board)
+      # NEW-FANGLED SMART COMPUTER METHOD CALLED HERE
+      # random_computer_guess = @human_board.cells.values.sample
+      # until random_computer_guess.fired_upon? == false
+      #   random_computer_guess = @human_board.cells.values.sample
+      # end
+      # random_computer_guess.fire_upon
+
+      # random_cell = computer_player.choose_random_cell_to_fire_upon(@human_board)
+      # computer_guess = computer_player.smart_computer(@human_board, random_cell)
+
+
       puts "Results from this turn are as follows:"
       puts "Your shot on #{chosen_cell.coordinate} was a #{chosen_cell.render_word}."
-      puts "My shot on #{random_computer_guess.coordinate} was a #{random_computer_guess.render_word}."
+      puts "My shot on #{computer_shot.coordinate} was a #{computer_shot.render_word}."
+      @computer_player.computer_guesses.each do |guess|
+        puts guess.coordinate
+      end
     end
     start
   end
