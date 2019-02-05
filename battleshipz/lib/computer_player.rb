@@ -22,8 +22,8 @@ class ComputerPlayer
   end
 
   def smart_computer(board)
-    random_cell = choose_random_cell_to_fire_upon(board)
     if @computer_guesses.length == 0
+      random_cell = choose_random_cell_to_fire_upon(board)
       random_cell.fire_upon
       if random_cell.render == "H"
         @computer_guesses << random_cell
@@ -91,7 +91,6 @@ class ComputerPlayer
         end
       end
       return next_cell
-    #########################################
     else
       if @computer_guesses[-2].coordinate[0].ord + 1 == @computer_guesses[-1].coordinate[0].ord
         possible_next_cells = board.cells.values.find_all do |cell_object|

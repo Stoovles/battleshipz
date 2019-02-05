@@ -113,23 +113,10 @@ class Game
       end
       chosen_cell.fire_upon
       computer_shot = @computer_player.smart_computer(@human_board)
-      # NEW-FANGLED SMART COMPUTER METHOD CALLED HERE
-      # random_computer_guess = @human_board.cells.values.sample
-      # until random_computer_guess.fired_upon? == false
-      #   random_computer_guess = @human_board.cells.values.sample
-      # end
-      # random_computer_guess.fire_upon
-
-      # random_cell = computer_player.choose_random_cell_to_fire_upon(@human_board)
-      # computer_guess = computer_player.smart_computer(@human_board, random_cell)
-
 
       puts "Results from this turn are as follows:"
       puts "Your shot on #{chosen_cell.coordinate} was a #{chosen_cell.render_word}."
       puts "My shot on #{computer_shot.coordinate} was a #{computer_shot.render_word}."
-      @computer_player.computer_guesses.each do |guess|
-        puts guess.coordinate
-      end
     end
     start
   end
