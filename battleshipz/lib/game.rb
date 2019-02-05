@@ -20,7 +20,7 @@ class Game
     turn_start
   end
 
-  def main_menu 
+  def main_menu
     continue = 1
     while continue == 1
       puts "Welcome to BATTLESHIP \nEnter p to play. Enter q to quit."
@@ -36,14 +36,14 @@ class Game
   end
 
   def board_setup
-    puts "The game board is a grid. Choose a number for the x axis."
+    puts "The game board is a grid. Choose a number between 4 and 26 for the x axis."
     print "> "
     holder = gets.chomp.to_i
     if holder < 4 || holder > 26
       board_setup
     end
     @rows = holder
-    puts "Now choose a number for the y axis."
+    puts "Now choose a number between 4 and 26 for the y axis."
     print "> "
     @columns = holder
     holder = gets.chomp.to_i
@@ -74,7 +74,7 @@ class Game
 
   def human_place_cruiser
     puts "The cruiser is three coordinates long and the submarine is two."
-    puts "Enter three consecutive coordinates for the cruiser:"
+    puts "Enter three consecutive coordinates for the cruiser: Ex. A1 A2 A3 "
     print "> "
     human_cruiser_coordinates = gets.chomp.split
     @human_cruiser = Ship.new("Cruiser", 3)
@@ -85,7 +85,7 @@ class Game
   end
 
   def human_place_submarine
-    puts "Enter two consecutive coordinates for the submarine:"
+    puts "Enter two consecutive coordinates for the submarine: Ex. B1 B2 "
     print "> "
     human_sub_coordinates = gets.chomp.split
     @human_submarine = Ship.new("Submarine", 2)
