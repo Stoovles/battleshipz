@@ -41,10 +41,18 @@ class Game
   def board_setup
     puts "The game board is a grid. Choose a number for the x axis."
     print "> "
-    @rows = gets.chomp.to_i
+    holder = gets.chomp.to_i
+    if holder < 4 || holder > 26
+      board_setup
+    end
+    @rows = holder
     puts "Now choose a number for the y axis."
     print "> "
-    @columns = gets.chomp.to_i
+    @columns = holder
+    holder = gets.chomp.to_i
+    if holder < 4 || holder > 26
+      board_setup
+    end
     @human_board = Board.new(@rows, @columns)
     puts @human_board.render
   end
