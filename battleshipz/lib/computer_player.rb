@@ -43,16 +43,15 @@ class ComputerPlayer
         end
         if next_cell.render == "X"
           @computer_guesses = []
+          existing_hits = board.cells.values.find do |cell_object|
+            cell_object.render == "H"
+          end
+          if existing_hits != nil
+            @computer_guesses << existing_hits
+          end
         end
         return next_cell
     elsif @computer_guesses.length == 2
-      # possible_next_cells = board.cells.values.find_all do |cell_object|
-      #   possible_adjacent_cells(@computer_guesses[0], cell_object)
-      # end
-      # possible_next_cells = possible_next_cells.find_all do |cell_object|
-      #   !cell_object.fired_upon?
-      # end
-      # next_cell = possible_next_cells.sample
       if @computer_guesses[0].coordinate[0].ord + 1 == @computer_guesses[1].coordinate[0].ord
         possible_next_cells = board.cells.values.find_all do |cell_object|
           possible_cells_above_random_cell_by_1_and_below_by_2(@computer_guesses[0], cell_object)
@@ -84,6 +83,53 @@ class ComputerPlayer
       end
       if next_cell.render == "X"
         @computer_guesses = []
+        existing_hits = board.cells.values.find do |cell_object|
+          cell_object.render == "H"
+        end
+        if existing_hits != nil
+          @computer_guesses << existing_hits
+        end
+      end
+      return next_cell
+    #########################################
+    else
+      if @computer_guesses[-2].coordinate[0].ord + 1 == @computer_guesses[-1].coordinate[0].ord
+        possible_next_cells = board.cells.values.find_all do |cell_object|
+          possible_cells_above_random_cell_by_1_and_below_by_2(@computer_guesses[-2], cell_object)
+        end
+        # binding.pry
+      elsif @computer_guesses[-2].coordinate[0].ord - 1 == @computer_guesses[-1].coordinate[0].ord
+          possible_next_cells = board.cells.values.find_all do |cell_object|
+            possible_cells_above_random_cell_by_2_and_below_by_1(@computer_guesses[-2], cell_object)
+          end
+          # binding.pry
+        elsif @computer_guesses[-2].coordinate[1].to_i + 1 == @computer_guesses[-1].coordinate[1].to_i
+          possible_next_cells = board.cells.values.find_all do |cell_object|
+            possible_cells_left_random_cell_by_1_and_right_by_2(@computer_guesses[-2], cell_object)
+          end
+          # binding.pry
+        elsif @computer_guesses[-2].coordinate[1].to_i - 1 == @computer_guesses[-1].coordinate[1].to_i
+          possible_next_cells = board.cells.values.find_all do |cell_object|
+            possible_cells_left_random_cell_by_2_and_right_by_1(@computer_guesses[-2], cell_object)
+          end
+          # binding.pry
+      end
+      possible_next_cells = possible_next_cells.find_all do |cell_object|
+        !cell_object.fired_upon?
+      end
+      next_cell = possible_next_cells.sample
+      next_cell.fire_upon
+      if next_cell.render == "H"
+        @computer_guesses << next_cell
+      end
+      if next_cell.render == "X"
+        @computer_guesses = []
+        existing_hits = board.cells.values.find do |cell_object|
+          cell_object.render == "H"
+        end
+        if existing_hits != nil
+          @computer_guesses << existing_hits
+        end
       end
       return next_cell
     end
@@ -189,7 +235,9 @@ class ComputerPlayer
         cruiser_coordinates.pop
       end
       next_cell = possible_next_cells.sample
-      cruiser_coordinates << next_cell.coordinate
+      if next_cell != nil
+        cruiser_coordinates << next_cell.coordinate #error happens here every once in awhile - reference screenshot
+      end
     end
     return cruiser_coordinates
   end
