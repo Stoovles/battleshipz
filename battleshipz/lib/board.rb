@@ -17,49 +17,25 @@ class Board
     end
   end
 
-  # def letter_converter
-  #   alphabet = ("A".."Z").to_a
-  #   width_letter_array = (1..@width).map do |num|
-  #     num = alphabet[num - 1]
-  #   end
-  #   letter_array = []
-  #   width_letter_array.cycle(@length) do |letter|
-  #     letter_array << letter
-  #   end
-  #   letter_array.sort!
-  #   counter = 1
-  #   coordinate_array = []
-  #   letter_array.each do |letter| #Amy says "Just say no to each."
-  #     coordinate_array << letter + counter.to_s
-  #     counter += 1
-  #     if counter > @length
-  #       counter = 1
-  #     end
-  #   end
-  #   coordinate_array
-  # end
-
   def letter_converter
-    alphabet = ("A".."Z").to_a
-    width_letter_array = (1..@width).map do |num|
-      num = alphabet[num - 1]
-    end
-    letter_array = []
-    width_letter_array.cycle(@length) do |letter|
-      letter_array << letter
-    end
-    letter_array.sort!
-    counter = 1
-    coordinate_array = []
-    letter_array.each do |letter| #Amy says "Just say no to each."
-      coordinate_array << letter + counter.to_s
-      counter += 1
-      if counter > @length
-        counter = 1
+    board_coordinates = []
+    (65..(64 + @width)).each do |letter|
+      (1..@length).each do |number|
+        board_coordinates << "#{letter.chr}#{number}"
       end
     end
-    coordinate_array
+    board_coordinates
   end
+
+  # def letter_converter
+  #   board_coordinates = []
+  #   (65..(64 + @width)).each do |letter|
+  #     (1..@length).each do |number|
+  #       board_coordinates << "#{letter.chr}#{number}"
+  #     end
+  #   end
+  #   board_coordinates
+  # end
 
   def valid_coordinate?(coordinate)
     @cells.keys.include?(coordinate)
@@ -202,3 +178,16 @@ class Board
   end
 
 end
+
+#
+# def letter_converter
+#   coords = []
+#   (65..(64 + @width)).each do |letter|
+#     (1..@length).each do |number|
+#       coords << "#{letter.chr}#{number}"
+#     end
+#   end
+#   coords
+# end
+
+# And then PEter said you don't need no letter  onverter. it's your board hash, fool. But in a nice way.
