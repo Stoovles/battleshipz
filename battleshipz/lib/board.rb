@@ -11,20 +11,21 @@ class Board
     board_hash
   end
 
-  def board_hash
-    letter_converter.each do |coordinate|
-      @cells[coordinate] = Cell.new(coordinate)
-    end
-  end
+  # def board_hash
+  #   letter_converter.each do |coordinate|
+  #     @cells[coordinate] = Cell.new(coordinate)
+  #   end
+  # end
 
-  def letter_converter
-    board_coordinates = []
+  def board_hash
+    # coordinate_hash = {}
     (65..(64 + @width)).each do |letter|
       (1..@length).each do |number|
-        board_coordinates << "#{letter.chr}#{number}"
+        @cells["#{letter.chr}#{number}"] = Cell.new("#{letter.chr}#{number}")
       end
+      # binding.pry
     end
-    board_coordinates
+    # coordinate_hash
   end
 
   # def letter_converter
