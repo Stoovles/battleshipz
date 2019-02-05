@@ -49,7 +49,7 @@ class CellTest < Minitest::Test
     assert_equal 1, submarine.health
   end
 
-  def test_cell_can_render #break into smaller tests
+  def test_cell_can_render
     cell_1 = Cell.new("A1")
     refute cell_1.fired_upon?
     assert_equal ".", cell_1.render
@@ -74,7 +74,6 @@ class CellTest < Minitest::Test
   end
 
   def test_cell_can_render_s_with_true_argument
-    # skip
     cell_1 = Cell.new("A1")
     submarine = Ship.new("Submarine", 2)
     cell_1.place_ship(submarine)

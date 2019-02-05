@@ -6,9 +6,6 @@ require './lib/computer_player'
 
 class Game
 
-# attr_reader :rows, :columns, :computer_board, :player_board,
-#             :computer_submarine, :computer_cruiser
-
   def initialize
     @rows = 4
     @columns = 4
@@ -23,7 +20,7 @@ class Game
     turn_start
   end
 
-  def main_menu #check while loop
+  def main_menu 
     continue = 1
     while continue == 1
       puts "Welcome to BATTLESHIP \nEnter p to play. Enter q to quit."

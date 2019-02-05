@@ -19,7 +19,6 @@ class Board
     end.flatten
   end
 
-
   def valid_coordinate?(coordinate)
     @cells.keys.include?(coordinate)
   end
