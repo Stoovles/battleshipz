@@ -113,13 +113,9 @@ class Game
       end
       chosen_cell.fire_upon
       computer_shot = @computer_player.smart_computer(@human_board)
-    
       puts "Results from this turn are as follows:"
       puts "Your shot on #{chosen_cell.coordinate} was a #{chosen_cell.render_word}."
       puts "My shot on #{computer_shot.coordinate} was a #{computer_shot.render_word}."
-      @computer_player.computer_guesses.each do |guess|
-        puts guess.coordinate
-      end
     end
     start
   end
