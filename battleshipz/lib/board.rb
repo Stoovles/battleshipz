@@ -11,32 +11,14 @@ class Board
     board_hash
   end
 
-  # def board_hash
-  #   letter_converter.each do |coordinate|
-  #     @cells[coordinate] = Cell.new(coordinate)
-  #   end
-  # end
-
   def board_hash
-    # coordinate_hash = {}
-    (65..(64 + @width)).each do |letter|
-      (1..@length).each do |number|
+    (65..(64 + @width)).map do |letter|
+      (1..@length).map do |number|
         @cells["#{letter.chr}#{number}"] = Cell.new("#{letter.chr}#{number}")
       end
-      # binding.pry
-    end
-    # coordinate_hash
+    end.flatten
   end
 
-  # def letter_converter
-  #   board_coordinates = []
-  #   (65..(64 + @width)).each do |letter|
-  #     (1..@length).each do |number|
-  #       board_coordinates << "#{letter.chr}#{number}"
-  #     end
-  #   end
-  #   board_coordinates
-  # end
 
   def valid_coordinate?(coordinate)
     @cells.keys.include?(coordinate)
@@ -124,7 +106,6 @@ class Board
       puts "Invalid number of coordinates."
       return false
     end
-    # true = continue to vp_coordinate; false = "Invalid coordinates."
     if !valid_placement_coordinate?(ship, coordinates)
       puts "Invalid coordinate."
       return false
@@ -152,7 +133,6 @@ class Board
   end
 
   def render(optional = false)
-    #output for 4 x 4 board => 1 2 3 4
     render_variable = ""
     (1..@length).each do |number|
       render_variable << "  #{number}"
@@ -179,16 +159,3 @@ class Board
   end
 
 end
-
-#
-# def letter_converter
-#   coords = []
-#   (65..(64 + @width)).each do |letter|
-#     (1..@length).each do |number|
-#       coords << "#{letter.chr}#{number}"
-#     end
-#   end
-#   coords
-# end
-
-# And then PEter said you don't need no letter  onverter. it's your board hash, fool. But in a nice way.

@@ -14,7 +14,14 @@ class BoardTest < Minitest::Test
     assert_instance_of Board, board
   end
 
-  def test_it_can_convert_with_varying_width_length_to_coordinate_array
+  def test_board_hash_return_value
+    board = Board.new(4, 4)
+
+    assert_equal 16, board.board_hash.count
+
+  end
+
+  def test_it_can_create_cell_hash_corresponding_to_board_length_and_width
     board = Board.new(4, 4)
     assert_equal 16, board.cells.count
 
