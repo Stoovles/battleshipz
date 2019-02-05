@@ -14,24 +14,28 @@ class BoardTest < Minitest::Test
     assert_instance_of Board, board
   end
 
-  def test_it_can_convert_with_varying_width_length_to_coordinate_array
+  def test_board_hash_return_value
     board = Board.new(4, 4)
-    expected = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
-    assert_equal expected, board.letter_converter
+
+    assert_equal 16, board.board_hash.count
+
+  end
+
+  def test_it_can_create_cell_hash_corresponding_to_board_length_and_width
+    board = Board.new(4, 4)
+    assert_equal 16, board.cells.count
 
     board = Board.new(5, 4)
-    expected = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4", "E1", "E2", "E3", "E4"]
-    assert_equal expected, board.letter_converter
+    assert board.cells.has_key?("E3")
 
-    board = Board.new(4, 5)
-    expected = ["A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5", "C1", "C2", "C3", "C4", "C5", "D1", "D2", "D3", "D4", "D5"]
-    assert_equal expected, board.letter_converter
+    board = Board.new(6, 7)
+    assert_equal 42, board.cells.count
   end
 
   def test_if_board_can_populate_board_with_cells
+    # skip
     board = Board.new(4, 4)
-    board.letter_converter
-    
+    board.cells
 
     assert_equal 16, board.cells.keys.count
     assert_instance_of Cell, board.cells.values[0]
@@ -39,7 +43,7 @@ class BoardTest < Minitest::Test
 
   def test_valid_coordinate?
     board = Board.new(4,4)
-    
+
 
     assert board.valid_coordinate?("A1")
     assert board.valid_coordinate?("A2")
@@ -48,7 +52,7 @@ class BoardTest < Minitest::Test
 
   def test_valid_placement_if_ship_length_and_coordinate_array_count_match
     board = Board.new(4,4)
-    
+
     submarine = Ship.new("Submarine", 2)
 
 
@@ -58,7 +62,7 @@ class BoardTest < Minitest::Test
 
   def test_valid_placement_if_coordinate_on_board
     board = Board.new(4,4)
-    
+
     submarine = Ship.new("Submarine", 2)
 
     assert board.valid_placement_coordinate?(submarine, ["C1", "D1"])
@@ -68,7 +72,7 @@ class BoardTest < Minitest::Test
 
   def test_valid_placement_if_consecutive
     board = Board.new(4,4)
-    
+
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
 
@@ -80,7 +84,7 @@ class BoardTest < Minitest::Test
 
   def test_valid_placement_length?
     board = Board.new(4,4)
-    
+
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
 
@@ -94,7 +98,7 @@ class BoardTest < Minitest::Test
 
   def test_valid_placement_coordinate?
     board = Board.new(4,4)
-    
+
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
 
@@ -106,7 +110,7 @@ class BoardTest < Minitest::Test
 
   def test_valid_placement_consecutive?
     board = Board.new(4,4)
-    
+
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
 
@@ -121,7 +125,7 @@ class BoardTest < Minitest::Test
 
   def test_valid_placement_overlap? #overlap
     board = Board.new(4,4)
-    
+
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
@@ -135,7 +139,7 @@ class BoardTest < Minitest::Test
 
   def test_valid_placement?
     board = Board.new(4,4)
-    
+
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
 
@@ -150,7 +154,7 @@ class BoardTest < Minitest::Test
 
   def test_it_can_place_a_ship
     board = Board.new(4,4)
-    
+
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
 
@@ -167,7 +171,7 @@ class BoardTest < Minitest::Test
 
   def test_it_can_render_empty_board
     board = Board.new(4,4)
-    
+
 
     expected = "  1  2  3  4  \n" +
                "A .  .  .  .  \n" +
@@ -180,7 +184,7 @@ class BoardTest < Minitest::Test
 
   def test_it_can_render_cell_with_optional_false
     board = Board.new(4,4)
-    
+
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
@@ -206,7 +210,7 @@ class BoardTest < Minitest::Test
 
   def test_it_can_render_cell_with_optional_false_5_by_4
     board = Board.new(5,4)
-    
+
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
@@ -232,7 +236,7 @@ class BoardTest < Minitest::Test
 
   def test_it_can_render_cell_with_optional_false_4_by_5
     board = Board.new(4,5)
-    
+
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
@@ -257,7 +261,7 @@ class BoardTest < Minitest::Test
 
   def test_it_can_render_with_optional_true
     board = Board.new(4,4)
-    
+
 
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
