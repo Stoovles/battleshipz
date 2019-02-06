@@ -56,22 +56,18 @@ class ComputerPlayer
         possible_next_cells = board.cells.values.find_all do |cell_object|
           possible_cells_above_random_cell_by_1_and_below_by_2(@computer_guesses[0], cell_object)
         end
-        # binding.pry
       elsif @computer_guesses[0].coordinate[0].ord - 1 == @computer_guesses[1].coordinate[0].ord
           possible_next_cells = board.cells.values.find_all do |cell_object|
             possible_cells_above_random_cell_by_2_and_below_by_1(@computer_guesses[0], cell_object)
           end
-          # binding.pry
         elsif @computer_guesses[0].coordinate[1].to_i + 1 == @computer_guesses[1].coordinate[1].to_i
           possible_next_cells = board.cells.values.find_all do |cell_object|
             possible_cells_left_random_cell_by_1_and_right_by_2(@computer_guesses[0], cell_object)
           end
-          # binding.pry
         elsif @computer_guesses[0].coordinate[1].to_i - 1 == @computer_guesses[1].coordinate[1].to_i
           possible_next_cells = board.cells.values.find_all do |cell_object|
             possible_cells_left_random_cell_by_2_and_right_by_1(@computer_guesses[0], cell_object)
           end
-          # binding.pry
       end
       possible_next_cells = possible_next_cells.find_all do |cell_object|
         !cell_object.fired_upon?
@@ -96,22 +92,18 @@ class ComputerPlayer
         possible_next_cells = board.cells.values.find_all do |cell_object|
           possible_cells_above_random_cell_by_1_and_below_by_2(@computer_guesses[-2], cell_object)
         end
-        # binding.pry
       elsif @computer_guesses[-2].coordinate[0].ord - 1 == @computer_guesses[-1].coordinate[0].ord
           possible_next_cells = board.cells.values.find_all do |cell_object|
             possible_cells_above_random_cell_by_2_and_below_by_1(@computer_guesses[-2], cell_object)
           end
-          # binding.pry
         elsif @computer_guesses[-2].coordinate[1].to_i + 1 == @computer_guesses[-1].coordinate[1].to_i
           possible_next_cells = board.cells.values.find_all do |cell_object|
             possible_cells_left_random_cell_by_1_and_right_by_2(@computer_guesses[-2], cell_object)
           end
-          # binding.pry
         elsif @computer_guesses[-2].coordinate[1].to_i - 1 == @computer_guesses[-1].coordinate[1].to_i
           possible_next_cells = board.cells.values.find_all do |cell_object|
             possible_cells_left_random_cell_by_2_and_right_by_1(@computer_guesses[-2], cell_object)
           end
-          # binding.pry
       end
       possible_next_cells = possible_next_cells.find_all do |cell_object|
         !cell_object.fired_upon?
@@ -193,7 +185,6 @@ class ComputerPlayer
     end
     next_cell = possible_next_cells.sample
     submarine_coordinates << next_cell.coordinate
-    # binding.pry
     return submarine_coordinates
   end
 
@@ -234,12 +225,11 @@ class ComputerPlayer
         cruiser_coordinates.pop
       end
       next_cell = possible_next_cells.sample
-      if next_cell != nil #I think this if nil statement fixed the error
-        cruiser_coordinates << next_cell.coordinate #error happens here every once in awhile - reference screenshot
+      if next_cell != nil
+        cruiser_coordinates << next_cell.coordinate
       end
     end
     return cruiser_coordinates
   end
-
 
 end
